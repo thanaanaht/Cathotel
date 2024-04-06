@@ -3,10 +3,13 @@ import './footer.css';
 
 const Footer = () => {
   return (
-    <div className="footer">
-      <a href=""></a> <br />
+    <div>
+        <footer>
+            <p>&copy; 2024 Cat Hotel Booking. All rights reserved.</p>
+        </footer>
 
     </div>
+
   );
 }
 

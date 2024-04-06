@@ -21,7 +21,7 @@ const Manubar = () => {
   return (
 <div class="navbar">
     <div class="navbarleft">
-        <a href="/">หน้าแรก</a>
+        <a href="/home">หน้าแรก</a>
         <a href="/login">Login</a>
         <a href="/booking">จองที่พัก</a>
         <a href="/editmember">ลงทะเบียนสมาชิค</a>
