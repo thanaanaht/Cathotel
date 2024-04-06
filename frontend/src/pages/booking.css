@@ -1,0 +1,13 @@
+.room-container {
+    display: flex;
+    justify-content: space-between; /* Distribute columns evenly */
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto; /* Center the container */
+  }
+  
+  .room-column {
+    flex: 1; /* Each column takes equal space */
+    padding: 10px; /* Add padding for spacing */
+    border: 1px solid #ccc; /* Add border for visualization */
+  }
+  
