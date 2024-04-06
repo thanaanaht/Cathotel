@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 
-function Room01() {
+function Room07() {
     const PORT = 3300;
     const [data, setData] = useState([]);
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [roomNumber, setRoomNumber] = useState('01');
-    // const roomNumber = '01';
+    const [roomNumber, setRoomNumber] = useState('07');
 
     useEffect(() => {
         // Fetch room data when the component mounts
@@ -23,35 +22,15 @@ function Room01() {
                 // Handle error
             });
     };
-
     const bookingStatus = (id, newStatus) => {
-      Axios.put(`http://localhost:${PORT}/bookingcontrolroom/${roomNumber}`, { id: id, status: 'Booked' })
-          .then((response) => {
-              // If the status is updated successfully on the server, update the state
-              setData(
-                  data.map((val) => {
-                      return val.id === id ? {
-                          ...val,
-                          status: 'Booked'
-                      } : val;
-                  })
-              );
-          })
-          .catch(error => {
-              console.error('Error updating booking status', error);
-          });
-  };
-  
-
-    const cancelStatus = (id, newStatus) => {
-        Axios.put(`http://localhost:${PORT}/bookingcontrolroom/${roomNumber}`, { status: 'Available', id: id })
+        Axios.put(`http://localhost:${PORT}/bookingcontrolroom/${roomNumber}`, { id: id, status: 'Booked' })
             .then((response) => {
                 // If the status is updated successfully on the server, update the state
                 setData(
                     data.map((val) => {
                         return val.id === id ? {
                             ...val,
-                            status: 'Available'
+                            status: 'Booked'
                         } : val;
                     })
                 );
@@ -60,7 +39,26 @@ function Room01() {
                 console.error('Error updating booking status', error);
             });
     };
-
+    
+  
+      const cancelStatus = (id, newStatus) => {
+          Axios.put(`http://localhost:${PORT}/bookingcontrolroom/${roomNumber}`, { status: 'Available', id: id })
+              .then((response) => {
+                  // If the status is updated successfully on the server, update the state
+                  setData(
+                      data.map((val) => {
+                          return val.id === id ? {
+                              ...val,
+                              status: 'Available'
+                          } : val;
+                      })
+                  );
+              })
+              .catch(error => {
+                  console.error('Error updating booking status', error);
+              });
+      };
+      
     const formatDate = (dateString) => {
         // Assuming dateString is in ISO 8601 format
         const date = new Date(dateString);
@@ -91,7 +89,7 @@ function Room01() {
 
     return (
         <div>
-            <h2>Room 01</h2>
+            <h2>Room 07</h2>
             <div>
                 <button onClick={prevMonth}>{'<'}</button>
                 <span>{currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
@@ -105,7 +103,7 @@ function Room01() {
                                 {formatDate(item.calendar)}
                             </td>
                             <td>
-                                <button onClick={() => bookingStatus(item.id, 'Booking')}>
+                            <button onClick={() => bookingStatus(item.id, 'Booking')}>
                                     จอง
                                 </button>
                                 <button onClick={() => cancelStatus(item.id, 'Available')}>
@@ -120,4 +118,5 @@ function Room01() {
     );
 }
 
-export default Room01;
+
+export default Room07;

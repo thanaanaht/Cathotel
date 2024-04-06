@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import { useState } from 'react';
+import './EditDBMember.css';
 
 function EditDBMember() {
   // username, password, contact, catsnumber, remark, score,
@@ -13,6 +14,7 @@ function EditDBMember() {
   const [MemberList, setMemberList] = useState([]);
 
   const PORT = 3300;
+
   const addMember = () => {
     Axios.post(`http://localhost:${PORT}/membercreate`, {
       username, password, contact, catsnumber, remark, score,
@@ -109,16 +111,8 @@ function EditDBMember() {
         </form>
       </div>
       <hr />
-      {/* Logging */}
-      <div>
-        <p>Username: {username}</p>
-        <p>Password: {password}</p>
-        <p>ติดต่อ: {contact}</p>
-        <p>จำนวนน้องแมว: {catsnumber}</p>
-        <p>อื่นๆ: {remark}</p>
-        <p>คะแนน: {score}</p>
 
-      </div>
+      
     </div>
   );
 }

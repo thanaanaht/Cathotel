@@ -75,15 +75,15 @@ Membercontrol.post('/membercreate', async (req, res) => {
         
         // Execute the query with parameters
         const result = await dbQueryPromise(sql, [
-            username, password, contact, catsnumber, remark, score,
+            username, hashedpassword, contact, catsnumber, remark, score,
         ]);
-        console.log(username);
-        console.log(password);
-        console.log(hashedpassword);
-        console.log(contact);
-        console.log(catsnumber);
-        console.log(remark);
-        console.log(score);
+        console.log("username:",username);
+        console.log("password:",password);
+        console.log("hashedpassword:",hashedpassword);
+        console.log("contact:",contact);
+        console.log("catsnumber:",catsnumber);
+        console.log("remark:",remark);
+        console.log("score:",score);
         // Send success response
         res.status(201).json({
             success: true,

@@ -38,4 +38,17 @@
   button:hover {
     background-color: #f0f0f0;
   }
-  
+  .booked {
+    background-color: red; /* Style for booked rooms */
+}
+
+.available {
+    background-color: green; /* Style for available rooms */
+}
+.redDate {
+  color: red;
+}
+.bookedDate {
+  background-color: red;
+  color: white; /* Optional: Change text color for better visibility */
+}
