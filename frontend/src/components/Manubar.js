@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import './Manubar.css';
 
@@ -19,14 +20,15 @@ const Manubar = () => {
 
 
   return (
-<div class="navbar">
-    <div class="navbarleft">
-        <a href="/home">หน้าแรก</a>
-        <a href="/login">Login</a>
-        <a href="/booking">จองที่พัก</a>
-        <a href="/editmember">ลงทะเบียนสมาชิค</a>
+<div className="navbar">
+<div className="navbarleft">
+      <Link to="/home">หน้าแรก</Link>
+      <Link to="/login">Login</Link>
+      <Link to="/booking">จองที่พัก</Link>
+      <Link to="/editmember">ลงทะเบียนสมาชิค</Link>
+      <Link to="/invoice">ใบเสร็จ</Link>
     </div>
-    <div class="navbarright">
+    <div className="navbarright">
         {username}
     </div>
 </div>

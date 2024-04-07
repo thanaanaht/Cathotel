@@ -1,8 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const mysql = require('mysql');
 
@@ -57,5 +55,74 @@ Bookingcontrol.put('/bookingcontrolroom/:roomNumber', (req, res) => {
         console.log(id);
     });
 });
+// const bookingData = {
+//     username: username,
+//     fullprice: totalCost, // Example values, replace with actual data
+//     discount: 0,
+//     priceVat: 0,
+//     detail: 'Example booking detail',
+//     checkindate: pickupDate,
+//     checkoutdate: returnDate
+//   };
+Bookingcontrol.post('/bookingcontrolroomcreate', async (req, res) => {
+    try {
+        const {username, fullprice, discount, priceVat, details, checkindate, checkoutdate } = req.body;
+        console.log("username:",username);
+
+
+        // SQL Query with placeholders for values
+        const sql = "INSERT INTO booking (username, fullprice, discount, priceVat, details, checkindate, checkoutdate) VALUES (?, ?, ?, ?, ?, ? ,?)";
+       // INSERT INTO room01 (username, fullprice, discount, priceVat, detail, checkindate, checkoutdate) VALUES (?, ?, ?, ?, ?, ?, ?)
+
+        // Execute the query with parameters
+        const result = await dbQueryPromise(sql, [
+            username, fullprice, discount, priceVat, details, checkindate, checkoutdate
+        ]);
+
+        console.log("Inserted ID:", result.insertId);
+        // Send success response
+        res.status(201).json({
+            success: true,
+            message: 'Value inserted successfully',
+            insertedid: result.insertId,
+        });
+    } catch (error) {
+        // Handle errors
+        console.error('Error inserting data:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+});
+
+Bookingcontrol.get('/bookingcontrolroomcreate', (req, res) => {
+
+    const query = `SELECT * FROM booking`;
+
+    db.query(query, (err, result) => {
+        if (err) {
+            console.error(`Error querying booking:`, err);
+            res.status(500).json({
+                success: false,
+                message: 'Internal Server Error',
+            });
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+function dbQueryPromise(sql, values) {
+    return new Promise((resolve, reject) => {
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}
 
 module.exports = Bookingcontrol;

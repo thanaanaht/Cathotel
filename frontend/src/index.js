@@ -8,8 +8,8 @@ import LoginPage from "./pages/LoginPage";
 import Manubar from "./components/Manubar";
 import Footer from './components/footer';
 import Booking from './pages/booking';
-import Invoice from './components/invoice';
 import EditDBMember from './EditDBMember';
+import Invoice from './pages/invoice';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,6 +24,7 @@ function App() {
           <Route path="booking" element={<Booking />} />
           <Route path="invoice" element={<Invoice />} />
           <Route path="editmember" element={<EditDBMember />} />
+          <Route path="invoice" element={<Invoice />} />
  
         <Route  />
       </Routes>
