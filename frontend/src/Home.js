@@ -7,7 +7,7 @@ function Home() {
 const [pickupDate, setPickupDate] = useState('');
 const [returnDate, setReturnDate] = useState('');
 const [fullprice, setFullprice] = useState(0);
-const [numDays, setNumDays] = useState(0);
+const [days, setDays] = useState(0);
 const [totalCost, setTotalCost] = useState(0);
 const [discount, setDiscount] = useState(0);
 const [priceVat, setPriceVat] = useState(0);
@@ -67,9 +67,9 @@ const [detail, setDetail] = useState('');
     const timeDifference = endDate.getTime() - startDate.getTime();
     const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
-    setNumDays(daysDifference);
-    setTotalCost(daysDifference * 800); // Assuming 800 baht per day
-
+    setDays(daysDifference);
+    setTotalCost(daysDifference * 800);
+    setFullprice(totalCost);
     // Here you can call addBooking if you want to add the booking to the list
   };
 
@@ -83,11 +83,12 @@ const [detail, setDetail] = useState('');
       detail,
       pickupDate,
       returnDate,
+      days,
     })
     .then(() => {
       setBookingList([
         ...BookingList,
-        { username, fullprice, discount, priceVat, detail, pickupDate, returnDate },
+        { username, fullprice, discount, priceVat, detail, pickupDate, returnDate,days },
       ]);
     })
     .catch(error => {
@@ -113,7 +114,7 @@ const [detail, setDetail] = useState('');
           <input type="date" id="return-date" name="return-date" value={returnDate} onChange={handleReturnDateChange} min={pickupDate} />
           <button type="submit">คำนวน</button>
         </form>
-        {numDays > 0 && <label>Number of Days: {numDays}</label>}
+        {days > 0 && <label>Number of Days: {days}</label>}
         {totalCost > 0 && (
           <div>
             <h3>Total Cost:</h3>

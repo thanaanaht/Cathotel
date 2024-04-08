@@ -66,7 +66,7 @@ Bookingcontrol.put('/bookingcontrolroom/:roomNumber', (req, res) => {
 //   };
 Bookingcontrol.post('/bookingcontrolroomcreate', async (req, res) => {
     try {
-        const {username, fullprice, discount, priceVat, details, checkindate, checkoutdate } = req.body;
+        const {username, fullprice, discount, priceVat, details, checkindate, checkoutdate ,days} = req.body;
         console.log("username:",username);
 
 
@@ -76,7 +76,7 @@ Bookingcontrol.post('/bookingcontrolroomcreate', async (req, res) => {
 
         // Execute the query with parameters
         const result = await dbQueryPromise(sql, [
-            username, fullprice, discount, priceVat, details, checkindate, checkoutdate
+            username, fullprice, discount, priceVat, details, checkindate, checkoutdate,days
         ]);
 
         console.log("Inserted ID:", result.insertId);
