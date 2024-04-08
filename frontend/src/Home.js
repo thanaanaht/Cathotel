@@ -4,8 +4,8 @@ import Axios from 'axios';
 
 
 function Home() {
-const [pickupDate, setPickupDate] = useState('');
-const [returnDate, setReturnDate] = useState('');
+const [checkindate, setCheckindate] = useState('');
+const [checkoutdate, setCheckoutdate] = useState('');
 const [fullprice, setFullprice] = useState(0);
 const [days, setDays] = useState(0);
 const [totalCost, setTotalCost] = useState(0);
@@ -49,21 +49,21 @@ const [detail, setDetail] = useState('');
 
   const handlePickupDateChange = (e) => {
     const selectedDate = e.target.value;
-    setPickupDate(selectedDate);
-    if (returnDate && selectedDate > returnDate) {
-      setReturnDate(selectedDate);
+    setCheckindate(selectedDate);
+    if (checkoutdate && selectedDate > checkoutdate) {
+      setCheckoutdate(selectedDate);
     }
   };
 
   const handleReturnDateChange = (e) => {
     const selectedDate = e.target.value;
-    setReturnDate(selectedDate);
+    setCheckoutdate(selectedDate);
   };
 
   const handleBooking = (e) => {
     e.preventDefault();
-    const startDate = new Date(pickupDate);
-    const endDate = new Date(returnDate);
+    const startDate = new Date(checkindate);
+    const endDate = new Date(checkoutdate);
     const timeDifference = endDate.getTime() - startDate.getTime();
     const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
@@ -75,20 +75,21 @@ const [detail, setDetail] = useState('');
 
   // Add Booking function if you want to add the booking to the list
   const addBooking = () => {
+    console.log(checkindate);
     Axios.post(`http://localhost:${PORT}/bookingcontrolroomcreate`, {
       username,
       fullprice,
       discount,
       priceVat,
       detail,
-      pickupDate,
-      returnDate,
+      checkindate,
+      checkoutdate,
       days,
     })
     .then(() => {
       setBookingList([
         ...BookingList,
-        { username, fullprice, discount, priceVat, detail, pickupDate, returnDate,days },
+        { username, fullprice, discount, priceVat, detail, checkindate, checkoutdate,days },
       ]);
     })
     .catch(error => {
@@ -109,9 +110,9 @@ const [detail, setDetail] = useState('');
         <h2>Username: {username}</h2>
         <form onSubmit={handleBooking}>
           <label htmlFor="pickup-date">Pickup Date:</label>
-          <input type="date" id="pickup-date" name="pickup-date" value={pickupDate} onChange={handlePickupDateChange} />
+          <input type="date" id="pickup-date" name="pickup-date" value={checkindate} onChange={handlePickupDateChange} />
           <label htmlFor="return-date">Return Date:</label>
-          <input type="date" id="return-date" name="return-date" value={returnDate} onChange={handleReturnDateChange} min={pickupDate} />
+          <input type="date" id="return-date" name="return-date" value={checkoutdate} onChange={handleReturnDateChange} min={checkindate} />
           <button type="submit">คำนวน</button>
         </form>
         {days > 0 && <label>Number of Days: {days}</label>}
