@@ -96,11 +96,11 @@ Bookingcontrol.post('/bookingcontrolroomcreate', async (req, res) => {
     }
 });
 
-Bookingcontrol.get('/bookingcontrolroomcreate', (req, res) => {
-
-    const query = `SELECT * FROM booking`;
-
-    db.query(query, (err, result) => {
+Bookingcontrol.post('/bookingcontrol', (req, res) => {
+    const id = req.body.id;
+    const query = `SELECT * FROM booking WHERE id = ?`;
+    console.log('id:', id);
+    db.query(query, id, (err, result) => {
         if (err) {
             console.error(`Error querying booking:`, err);
             res.status(500).json({
@@ -112,6 +112,41 @@ Bookingcontrol.get('/bookingcontrolroomcreate', (req, res) => {
         }
     });
 });
+
+Bookingcontrol.get('/bookingcontrol', (req, res) => {
+    const query = `SELECT * FROM booking`;
+    db.query(query, (err, result) => {
+        if (err) {
+            console.error(`Error querying bookings:`, err);
+            res.status(500).json({
+                success: false,
+                message: 'Internal Server Error',
+            });
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+
+
+
+Bookingcontrol.get('/availability', async (req, res) => {
+    try {
+      const date = req.query.date; // Get date from query parameters
+      const query = `
+        SELECT roomId
+        FROM bookings
+        WHERE date = $1 AND status = 'available'
+      `;
+      const { rows } = await db.query(query, [date]);
+      const availableRooms = rows.map(row => row.roomId);
+      res.json({ availableRooms });
+    } catch (error) {
+      console.error('Error fetching available rooms:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 function dbQueryPromise(sql, values) {
     return new Promise((resolve, reject) => {

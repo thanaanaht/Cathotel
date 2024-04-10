@@ -27,6 +27,7 @@ const Manubar = () => {
       <Link to="/booking">จองที่พัก</Link>
       <Link to="/editmember">ลงทะเบียนสมาชิค</Link>
       <Link to="/invoice">ใบเสร็จ</Link>
+      <Link to="/manageroom">จัดการห้อง</Link>
     </div>
     <div className="navbarright">
         {username}

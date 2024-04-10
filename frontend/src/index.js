@@ -10,6 +10,8 @@ import Footer from './components/footer';
 import Booking from './pages/booking';
 import EditDBMember from './EditDBMember';
 import Invoice from './pages/invoice';
+import CreateRoom from './pages/ManageRoom';
+import ManageRoom from './pages/ManageRoom';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -25,6 +27,8 @@ function App() {
           <Route path="invoice" element={<Invoice />} />
           <Route path="editmember" element={<EditDBMember />} />
           <Route path="invoice" element={<Invoice />} />
+          <Route path="createroom" element={<CreateRoom/>}/> 
+          <Route path="manageroom" element = {<ManageRoom/>}/>
  
         <Route  />
       </Routes>

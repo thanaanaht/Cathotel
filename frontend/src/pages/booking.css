@@ -1,13 +1,21 @@
 .room-container {
-    display: flex;
-    justify-content: space-between; /* Distribute columns evenly */
-    max-width: 100%; /* Adjust as needed */
-    margin: 0 auto; /* Center the container */
-  }
-  
-  .room-column {
-    flex: 1; /* Each column takes equal space */
-    padding: 10px; /* Add padding for spacing */
-    border: 1px solid #ccc; /* Add border for visualization */
-  }
-  
+  display: flex;
+  flex-direction: row;
+}
+
+.room-column {
+  flex: 1;
+  padding: 10px;
+}
+
+.search-container {
+  padding: 10px;
+}
+
+.selection-bar {
+  padding: 10px;
+}
+
+.selection-bar span {
+  margin-right: 10px;
+}
