@@ -56,7 +56,7 @@ function LoginPage() {
         const receivedToken = response.data.token;
         if (receivedToken) {
           setIsAuthenticated(true);
-          navigate('/booking');
+          navigate('/dashboard');
         } else {
           setErrorMessage('Sorry, wrong username or password');
         }
@@ -98,6 +98,7 @@ function LoginPage() {
       <div className="inputContainer">
         <input className="inputButton" type="button" onClick={onButtonClick} value={'Log in'} />
         {errorMessage && <div className="errorLabel">{errorMessage}</div>}
+
       </div>
     </div>
   );

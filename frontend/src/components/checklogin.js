@@ -6,13 +6,15 @@ function CheckLogin() {
   const PORT = 3300;
   const navigate = useNavigate();
   const [token , setToken] = useState('');
+  const [username , setUsername] = useState('No Login');
 
 
   useEffect(() => {
     Axios.get(`http://localhost:${PORT}/login`)
       .then(response => {
         console.log(response.data);
-        setToken(response.data.token); // Assuming setUsername is a state updater function    
+        setToken(response.data.token); 
+        setUsername(response.data.username);
       })
       .catch(error => {
         console.error('Error fetching login data', error);
@@ -21,7 +23,13 @@ function CheckLogin() {
       });
   }, [token, navigate]);
 
-  return null; // This component doesn't render anything
+  return (
+    <div>
+      Username: {username}
+    </div>
+
+  ) 
+
 }
 
 export default CheckLogin;

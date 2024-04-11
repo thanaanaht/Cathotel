@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
+import { Axios } from 'axios';
+
 
 import './Manubar.css';
+import CheckLogin from './checklogin';
 
 
 const Manubar = () => {
@@ -11,31 +14,87 @@ const Manubar = () => {
   const [local, setLocal] = useState('');
   const [level, setLevel] = useState('');
   const [loginlist, setLoginlist] = useState([]);
-  const [token, setToken] = useState('');
+  
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Moved inside the component
   const [usernameError ,setUsernameError] = useState('');
   const [passwordError ,setPasswordError] = useState('');
 
   
+  const PORT = 3300;
+  const navigate = useNavigate();
+  const [token , setToken] = useState('');
+
+
 
 
   return (
+<div>
+  
+<div className="login-name">
+         <CheckLogin/>
+  </div>
+  
 <div className="navbar">
-<div className="navbarleft">
-      <Link to="/home">หน้าแรก</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/booking">จองที่พัก</Link>
-      <Link to="/editmember">ลงทะเบียนสมาชิค</Link>
-      <Link to="/invoice">ใบเสร็จ</Link>
-      <Link to="/manageroom">จัดการห้อง</Link>
+  <a href="#home">Home</a>
+  <div className="subnav">
+    <button className="subnavbtn">จัดการการจอง <i className="fa fa-caret-down"></i></button>
+    <div className="subnav-content">
+      <a href="#company">จองห้อง</a>
+      <a href="#team">ยกเลิกการจอง</a>
     </div>
-    <div className="navbarright">
-        {username}
+  </div> 
+  <div className="subnav">
+    <button className="subnavbtn">จัดการที่พัก <i className="fa fa-caret-down"></i></button>
+    <div className="subnav-content">
+      <a href="#bring">เพิ่มห้องพัก</a>
+      <a href="#deliver">ลบห้องพัก</a>
+      <a href="#package">แก้ไขข้อมูลที่พัก</a>
+
     </div>
+  </div> 
+  <div className="subnav">
+    <button className="subnavbtn">ข้อมูลสมาชิค <i className="fa fa-caret-down"></i></button>
+    <div class="subnav-content">
+      <a href="#link1">เพิ่มสมาชิค</a>
+      <a href="#link2">ลดสมาชิค</a>
+      <a href="#link3">แก้ไขข้อมูลสมาชิค</a>
+    </div>
+  </div>
+  <a href="#contact">พิมพ์ใบเสร็จ</a>
+  <a href="/login">Login</a>
 </div>
+
+
+</div>
+
 
   );
 }
 
 
 export default Manubar;
+
+
+{/* <nav>
+<div class="container">
+  <div class="nav-con">
+    <div class="logo">
+      <a href="#">Narbar</a>
+    </div>
+    <ul class="menu">
+      <li><a href="#">menu#1</a></li>
+      <li><a href="#">menu#2</a></li>
+      <li><a href="#">menu#3</a></li>
+      <li>
+        <input type="text" class="nav-search-box" /><a href="">🔍</a>
+      </li>
+      <li>
+        <div class="auth-box">
+          <button class="nav-login-btn">LOGIN</button>
+          <button class="nav-signup-btn">SIGNUP</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+</nav> */}
