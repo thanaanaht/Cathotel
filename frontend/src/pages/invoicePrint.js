@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Axios from 'axios';
-import './invoice.css';
 
-const Invoice = () => {
+const InvoicePrint = () => {
   const contentToPrint = useRef(null);
   const [id, setId] = useState();
   const [getid, setGetid] = useState(0);
@@ -64,8 +63,9 @@ const Invoice = () => {
   });
 
   return (
-    <div>
-      <select onChange={handleSelectChange} value={id}>
+    <div className="container mt-5">
+        <h1>พิมพ์</h1>
+      <select className="form-select mb-3" onChange={handleSelectChange} value={id}>
         <option value="">Select Booking ID</option>
         {bookinglist.map((val, key) => (
           <option key={key} value={val.id}>
@@ -76,57 +76,67 @@ const Invoice = () => {
 
       {id && (
         <div ref={contentToPrint} className='invoice'>
-          <div className='title-right'>ใบเสร็จรับเงิน/ใบกำกับภาษี</div>
-          <div className='title-right'>เลขที่ CT256700{id}</div>
-          <div className='title-left'>99/99 ถ.ทองหล่อ เขตพระนคร</div>
-          <div className='title-left'>แขวงพระนคร กรุงเทพ 10230</div>
-          <br/>
-          <table>
-            <tr>
-              <th>ID</th>
-              <th>รายการ</th>
-              <th>วันเช็คอิน</th>
-              <th>วันเช็คเอาท์</th>
-              <th>จำนวนวัน</th>
-              <th>ราคา</th>
-            </tr>
-            <tr>
-              <td>{id}</td>
-              <td>เข้าพัก</td>
-              <td>{new Date(checkindate).toLocaleDateString()}</td>
-              <td>{new Date(checkoutdate).toLocaleDateString()}</td>
-              <td>{days}</td>
-              <td>{fullprice}</td>
-            </tr>
+          <h2 className='text-center mb-4'>ใบเสร็จรับเงิน/ใบกำกับภาษี</h2>
+          <div className='row mb-3'>
+            <div className='col-6'>
+              <div>เลขที่ CT256700{id}</div>
+              <div>99/99 ถ.ทองหล่อ เขตพระนคร</div>
+              <div>แขวงพระนคร กรุงเทพ 10230</div>
+            </div>
+            <div className='col-6 text-end'>
+              <button className='btn btn-primary' onClick={() => handlePrint(null, () => contentToPrint.current)}>Print</button>
+            </div>
+          </div>
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">รายการ</th>
+                <th scope="col">วันเช็คอิน</th>
+                <th scope="col">วันเช็คเอาท์</th>
+                <th scope="col">จำนวนวัน</th>
+                <th scope="col">ราคา</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{id}</td>
+                <td>เข้าพัก</td>
+                <td>{new Date(checkindate).toLocaleDateString()}</td>
+                <td>{new Date(checkoutdate).toLocaleDateString()}</td>
+                <td>{days}</td>
+                <td>{fullprice}</td>
+              </tr>
+            </tbody>
           </table>
           <div className='container-sum'>
-            <div className='right-text'></div> 
-            <div className='center-text'>รวมเป็นเงิน  </div> 
-            <div className='left-text'> {fullprice} บาท</div>
+            <div className='row'>
+              <div className='col text-end'><strong>รวมเป็นเงิน</strong></div>
+              <div className='col text-start'>{fullprice} บาท</div>
+            </div>
           </div>
           <div className='container-sum'>
-            <div className='right-text'></div> 
-            <div className='center-text'>VAT 7%   </div> 
-            <div className='left-text'>{priceVat} บาท</div>
+            <div className='row'>
+              <div className='col text-end'><strong>VAT 7%</strong></div>
+              <div className='col text-start'>{priceVat} บาท</div>
+            </div>
           </div>
           <div className='container-sum'>
-            <div className='right-text'></div> 
-            <div className='center-text'>ส่วนลด   </div> 
-            <div className='left-text'>{discount} บาท</div>
+            <div className='row'>
+              <div className='col text-end'><strong>ส่วนลด</strong></div>
+              <div className='col text-start'>{discount} บาท</div>
+            </div>
           </div>
           <div className='container-sum'>
-            <div className='right-text'></div> 
-            <div className='center-text'>รวมทั้งหมด   </div> 
-            <div className='left-text'>{price} บาท</div>
+            <div className='row'>
+              <div className='col text-end'><strong>รวมทั้งหมด</strong></div>
+              <div className='col text-start'>{price} บาท</div>
+            </div>
           </div>
-
         </div>
       )}
-      <button onClick={() => handlePrint(null, () => contentToPrint.current)}>
-        PRINT
-      </button>
     </div>
   );
 }
 
-export default Invoice;
+export default InvoicePrint;

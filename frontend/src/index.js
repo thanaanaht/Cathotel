@@ -3,19 +3,26 @@ import { createRoot } from 'react-dom/client';
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Home";
+import LoginPage from "./pages/LoginPage"
+import Footer from "./components/footer"
+import Manubar from './components/Manubar';
 
-import BookingManagement from './pages/bookingManagement';
-import BookingEdit from './pages/bookingEdit';
-import BookingCancel from './pages/bookingCancel';
+import BookingEdit from './pages/bookEdit';
+import BookingCancel from './pages/bookCancel';
+import BookingManagement from './pages/bookManagement';
 
-// import Footer from "./components/Footer";
-import LoginPage from "./pages/LoginPage";
-import Manubar from "./components/Manubar";
-import Footer from './components/footer';
-import Booking from './pages/booking';
-import EditDBMember from './EditDBMember';
-import Invoice from './pages/invoice';
-import CreateRoom from './pages/ManageRoom';
+import RoomCreate from './pages/roomCreate';
+import RoomEdit from './pages/roomEdit';
+import RoomDelete from './pages/roomDelete';
+
+import MemberCreate from './pages/memberCreate';
+import MemberEdit from './pages/memberEdit';
+import MemberDelete from './pages/memberDelete';
+
+import InvoiceDelete from './pages/invoiceDelete';
+import InvoiceEdit from './pages/invoiceEdit';
+import InvoicePrint from './pages/invoicePrint';
+import InvoiceEditAddress from './pages/invoiceEditaddress';
 
 
 function App() {
@@ -23,7 +30,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Manubar />
+      <Manubar/>
       <Routes>
           <Route path="" element={<Home />} />
           <Route path="home" element={<Home />} />
@@ -33,17 +40,18 @@ function App() {
           <Route path="booking/edit" element = {<BookingEdit/>}/>
           <Route path="booking/delete" element = {<BookingCancel/>}/>
 
-          <Route path="room/create" element={<Booking />} />
-          <Route path="room/edit" element={<Invoice />} />
-          <Route path="room/delete" element={<EditDBMember />} />
+          <Route path="room/create" element={<RoomCreate />} />
+          <Route path="room/edit" element={<RoomEdit />} />
+          <Route path="room/delete" element={<RoomDelete />} />
 
-          <Route path="member/create" element={<Invoice />} />
-          <Route path="member/edit" element={<CreateRoom/>}/> 
-          <Route path="member/delete" element={<CreateRoom/>}/> 
+          <Route path="member/create" element={<MemberCreate />} />
+          <Route path="member/edit" element={<MemberEdit/>}/> 
+          <Route path="member/delete" element={<MemberDelete/>}/> 
           
-          <Route path="invoice/print" element = {<BookingManagement/>}/>
-          <Route path="invoice/editbill" element = {<BookingManagement/>}/>
-          <Route path="invoice/editaddress" element = {<BookingManagement/>}/>
+          <Route path="invoice/print" element = {<InvoicePrint/>}/>
+          <Route path="invoice/editbill" element = {<InvoiceEdit/>}/>
+          <Route path="invoice/editaddress" element = {<InvoiceEditAddress/>}/>
+          <Route path="invoice/delete" element = {<InvoiceDelete/>}/>
  
         <Route  />
       </Routes>

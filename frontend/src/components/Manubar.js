@@ -62,6 +62,7 @@ function Manubar() {
 
         <Dropdown.Item href="/invoice/print">พิมพ์ใบกำกับภาษี</Dropdown.Item>
         <Dropdown.Item href="/invoice/editbill">แก้ไขใบกำกับภาษี</Dropdown.Item>
+        <Dropdown.Item href="/invoice/delete">ลบข้อมูลใบกำกับภาษี</Dropdown.Item>
         <Dropdown.Item href="/invoice/editaddress">แก้ไขที่อยู่</Dropdown.Item>
         
       </DropdownButton>

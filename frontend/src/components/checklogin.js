@@ -5,14 +5,19 @@ import { useNavigate } from 'react-router-dom';
 function CheckLogin() {
   const PORT = 3300;
   const navigate = useNavigate();
+
   const [token, setToken] = useState('');
   const [username, setUsername] = useState('No Login');
+
+
+
 
   useEffect(() => {
     Axios.get(`http://localhost:${PORT}/login`)
       .then(response => {
         console.log(response.data);
         setToken(response.data.token);
+        setToken(response.data.token); 
         setUsername(response.data.username);
       })
       .catch(error => {
@@ -24,9 +29,11 @@ function CheckLogin() {
 
   return (
     <div>
+
       Login: {username}
     </div>
-  );
+
+  )
 }
 
 export default CheckLogin;

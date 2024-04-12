@@ -128,6 +128,29 @@ Bookingcontrol.get('/bookingcontrol', (req, res) => {
     });
 });
 
+Bookingcontrol.delete('/bookingcontrol/deletebooking/:id', (req, res) => {
+    const id = req.params.id;
+  
+    // Query your database to delete the invoice with the specified ID
+    const deleteQuery = `DELETE FROM booking WHERE id = ?`; // Adjust the table name as per your database schema
+    db.query(deleteQuery, [id], (err, result) => {
+      if (err) {
+        console.error('Error deleting invoice:', err);
+        res.status(500).json({
+          success: false,
+          message: 'Internal Server Error',
+          error: err
+        });
+      } else {
+        console.log('Invoice deleted successfully');
+        res.status(200).json({
+          success: true,
+          message: 'Invoice deleted successfully'
+        });
+      }
+    });
+  });
+
 
 
 
