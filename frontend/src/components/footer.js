@@ -1,15 +1,12 @@
 import React from "react";
-import './footer.css';
 
 const Footer = () => {
   return (
-    <div>
-        <footer>
-            <p>&copy; 2024 Cat Hotel Booking. All rights reserved.</p>
-        </footer>
-
-    </div>
-
+    <footer className="footer mt-auto py-3" style={{ backgroundColor: 'black', color: 'pink', textAlign: 'center' }}>
+      <div className="container"  >
+        <p className="mb-0" >&copy; IKKI CAT HOTEL. All rights reserved.</p>
+      </div>
+    </footer>
   );
 }
 

@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { useState } from 'react';
-import './EditDBMember.css';
+
 
 function EditDBMember() {
   // username, password, contact, catsnumber, remark, score,

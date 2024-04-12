@@ -11,13 +11,9 @@ function App() {
 
   return (
     <div>
-      <CheckLogin setUsername={setUsername} redirectToLoginPage={redirectToLoginPage} />
+      
 
-      {username ? (
-        <div>Welcome, {username}!</div>
-      ) : (
-        <div>Loading...</div>
-      )}
+     
     </div>
   );
 }

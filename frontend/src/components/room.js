@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import './room.css';
+
 
 function Room() {
     const PORT = 3300;

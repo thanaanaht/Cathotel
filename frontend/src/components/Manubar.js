@@ -1,41 +1,95 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Stack } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CheckLogin from './checklogin'
 
-import './Manubar.css';
-
-
-const Manubar = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [area, setArea] = useState('');
-  const [local, setLocal] = useState('');
-  const [level, setLevel] = useState('');
-  const [loginlist, setLoginlist] = useState([]);
-  const [token, setToken] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Moved inside the component
-  const [usernameError ,setUsernameError] = useState('');
-  const [passwordError ,setPasswordError] = useState('');
-
-  
-
-
+function Manubar() {
   return (
-<div className="navbar">
-<div className="navbarleft">
-      <Link to="/home">หน้าแรก</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/booking">จองที่พัก</Link>
-      <Link to="/editmember">ลงทะเบียนสมาชิค</Link>
-      <Link to="/invoice">ใบเสร็จ</Link>
-      <Link to="/manageroom">จัดการห้อง</Link>
-    </div>
-    <div className="navbarright">
-        {username}
-    </div>
-</div>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100px' }}>
 
+      <Stack direction="horizontal" gap={3} style={{ backgroundColor: 'pink', flexDirection: 'row', display: 'flex' ,padding:'20px' }}>
+        <img src="http://localhost/logo.jpg" alt="logo cathotel" width="200" height="100"/>
+
+        
+      
+     
+      <DropdownButton
+        id="dropdown-button-dark-example2"
+        variant="secondary"
+        title="จัดการที่พัก"
+        className="mt-2"
+        data-bs-theme="dark"
+      >
+
+        <Dropdown.Item href="/booking/manament">จองที่พัก</Dropdown.Item>
+        <Dropdown.Item href="/booking/edit">แก้ไขการจอง</Dropdown.Item>
+        <Dropdown.Item href="/booking/delete">ยกเลิกการจอง</Dropdown.Item>
+      </DropdownButton>
+
+      <DropdownButton
+        id="dropdown-button-dark-example2"
+        variant="secondary"
+        title="จัดการห้อง"
+        className="mt-2"
+        data-bs-theme="dark"
+      >
+  
+        <Dropdown.Item href="/room/create">เพิ่มห้องพัก</Dropdown.Item>
+        <Dropdown.Item href="/room/edit">แก้ไขห้องพัก</Dropdown.Item>
+        <Dropdown.Item href="/room/delete">ลบห้องพัก</Dropdown.Item>
+        
+      </DropdownButton>
+      <DropdownButton
+        id="dropdown-button-dark-example2"
+        variant="secondary"
+        title="ข้อมูลสมาชิค"
+        className="mt-2"
+        data-bs-theme="dark"
+      >
+        <Dropdown.Item href="/member/create">เพิ่มสมาชิค</Dropdown.Item>
+        <Dropdown.Item href="/member/edit">แก้ไขสมาชิค</Dropdown.Item>
+        <Dropdown.Item href="/member/delete">ลบสมาชิค</Dropdown.Item>
+        
+      </DropdownButton>
+      <DropdownButton
+        id="dropdown-button-dark-example2"
+        variant="secondary"
+        title="Invote/ใบกำกับภาษี"
+        className="mt-2"
+        data-bs-theme="dark"
+      >
+
+        <Dropdown.Item href="/invoice/print">พิมพ์ใบกำกับภาษี</Dropdown.Item>
+        <Dropdown.Item href="/invoice/editbill">แก้ไขใบกำกับภาษี</Dropdown.Item>
+        <Dropdown.Item href="/invoice/editaddress">แก้ไขที่อยู่</Dropdown.Item>
+        
+      </DropdownButton>
+      <div style={{ backgroundColor: 'pink', color: 'white', width: '100%', justifyContent: 'flex-end' ,textAlign:'end',padding:'20px'}}>
+        <CheckLogin />
+      </div>
+
+      </Stack>
+
+    </div>
+    
   );
 }
 
-
 export default Manubar;
+
+// <Route path="booking/manament" element = {<ManageRoom/>}/>
+// <Route path="booking/edit" element = {<ManageRoom/>}/>
+// <Route path="booking/delete" element = {<ManageRoom/>}/>
+
+// <Route path="room/create" element={<Booking />} />
+// <Route path="room/edit" element={<Invoice />} />
+// <Route path="room/delete" element={<EditDBMember />} />
+
+// <Route path="member/create" element={<Invoice />} />
+// <Route path="member/edit" element={<CreateRoom/>}/> 
+// <Route path="member/delete" element={<CreateRoom/>}/> 
+
+// <Route path="invoice/print" element = {<ManageRoom/>}/>
+// <Route path="invoice/editbill" element = {<ManageRoom/>}/>
+// <Route path="invoice/editaddress" element = {<ManageRoom/>}/>
