@@ -15,7 +15,9 @@ const InvoicePrint = () => {
   const [price, setPrice] = useState(0);
   const [days, setDays] = useState(0);
   const [details, setDetails] = useState('');
-  const [bookingdate, setBookingdate] = useState('');
+  const [Bookingdate,setBookingdate] = useState('');
+  const [company, setCompany]=useState('')
+  const [companyaddress, setCompanyAddress]=useState('')
   const [bookinglist, setBookinglist] = useState([]);
   const PORT = 3300;
 
@@ -39,6 +41,7 @@ const InvoicePrint = () => {
 
     // Find the selected booking from the booking list
     const selectedBooking = bookinglist.find(booking => booking.id === parseInt(selectedId));
+ 
 
     // Update state variables with the selected booking's data
     if (selectedBooking) {
@@ -52,6 +55,15 @@ const InvoicePrint = () => {
       setPriceVat(selectedBooking.priceVat);
       setDetails(selectedBooking.details);
       setBookingdate(selectedBooking.bookingdate);
+      setCompany(selectedBooking.company);
+      setCompanyAddress(selectedBooking.companyaddress);
+      console.log("company is:",company);
+      console.log("companyaddress is:",companyaddress);
+
+      // {"id":14,"username":null,"checkindate":"2024-03-31T17:00:00.000Z","checkoutdate":"2024-04-01T17:00:00.000Z",
+      //"fullprice":800,"discount":null,"price":800,"priceVat":null,"details":null,"bookingdate":"2024-04-13T02:06:00.000Z",
+      //"days":1,"company":"Ikki Cat Hotel","companyaddress":"17/243 Pracha Chuen 14 Alley, Lane 14, Thung Song Hong, Lak Si, Bangkok 10210"}]
+
     }
   };
 
@@ -76,16 +88,15 @@ const InvoicePrint = () => {
 
       {id && (
         <div ref={contentToPrint} className='invoice'>
+                    <hr/>
           <h2 className='text-center mb-4'>ใบเสร็จรับเงิน/ใบกำกับภาษี</h2>
           <div className='row mb-3'>
             <div className='col-6'>
-              <div>เลขที่ CT256700{id}</div>
-              <div>99/99 ถ.ทองหล่อ เขตพระนคร</div>
-              <div>แขวงพระนคร กรุงเทพ 10230</div>
+              <div>เลขที่ CT2567{id}</div>
+              <div>{company}</div>
+              <div>{companyaddress}</div>
             </div>
-            <div className='col-6 text-end'>
-              <button className='btn btn-primary' onClick={() => handlePrint(null, () => contentToPrint.current)}>Print</button>
-            </div>
+
           </div>
           <table className="table table-bordered">
             <thead>
@@ -133,6 +144,10 @@ const InvoicePrint = () => {
               <div className='col text-start'>{price} บาท</div>
             </div>
           </div>
+          <hr/>
+          <div className='col-6 text-end'>
+              <button className='btn btn-primary' onClick={() => handlePrint(null, () => contentToPrint.current)}>Print</button>
+            </div>
         </div>
       )}
     </div>

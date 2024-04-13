@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import './LoginPage.css';
 import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
@@ -67,38 +66,38 @@ function LoginPage() {
   };
 
   return (
-    <div className="mainContainer">
-      <div className="titleContainer">
-        <div>ลงทะเบียนเข้าใช้งาน</div>
-      </div>
-      <br />
-      <div className="inputContainer">
-        <label>บัญชีผู้ใช้</label>
-        <input
-          value={username}
-          placeholder="Enter your username here"
-          onChange={ev => setUsername(ev.target.value)}
-          className="inputBox"
-        />
-        <label className="errorLabel">{usernameError}</label>
-      </div>
-      <br />
-      <div className="inputContainer">
-        <label>รหัสผ่าน</label>
-        <input
-          type="password"
-          value={password}
-          placeholder="Enter your password here"
-          onChange={ev => setPassword(ev.target.value)}
-          className="inputBox"
-        />
-        <label className="errorLabel">{passwordError}</label>
-      </div>
-      <br />
-      <div className="inputContainer">
-        <input className="inputButton" type="button" onClick={onButtonClick} value={'Log in'} />
-        {errorMessage && <div className="errorLabel">{errorMessage}</div>}
-
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">Login</h5>
+              <div className="form-group">
+                <label>Username</label>
+                <input
+                  value={username}
+                  placeholder="Enter your username here"
+                  onChange={ev => setUsername(ev.target.value)}
+                  className="form-control"
+                />
+                <small className="text-danger">{usernameError}</small>
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  placeholder="Enter your password here"
+                  onChange={ev => setPassword(ev.target.value)}
+                  className="form-control"
+                />
+                <small className="text-danger">{passwordError}</small>
+              </div>
+              <button className="btn btn-primary" onClick={onButtonClick}>Log in</button>
+              {errorMessage && <div className="text-danger">{errorMessage}</div>}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

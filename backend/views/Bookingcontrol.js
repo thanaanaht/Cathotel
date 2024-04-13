@@ -55,6 +55,43 @@ Bookingcontrol.put('/bookingcontrolroom/:roomNumber', (req, res) => {
         console.log(id);
     });
 });
+
+Bookingcontrol.put('/updateInvoice/:id', (req, res) => {
+    const id = req.params.id; 
+    const roomname = req.body.roomname;       
+    const checkindate = req.body.checkindate;
+    const checkoutdate = req.body.checkoutdate;
+    const fullprice = req.body.fullprice;
+    const discount = req.body.discount;
+    const priceVat = req.body.priceVat;
+    const price = req.body.price;
+    
+    // Execute SQL UPDATE query to update booking details
+    db.query(`UPDATE booking SET roomname = ?, checkindate = ?, checkoutdate = ?, fullprice = ?, discount = ?, priceVat = ?, price = ? WHERE id = ?`, 
+        [roomname, checkindate, checkoutdate, fullprice, discount, priceVat, price, id], 
+        (err, result) => {
+            if (err) {
+                console.error("Error updating booking details:", err);
+                res.status(500).json({ error: "An error occurred while updating booking details" });
+            } else if (result.affectedRows === 0) {
+                console.error("No rows were affected by the update");
+                res.status(404).json({ error: "No booking found with the provided ID" });
+            } else {
+                console.log("Booking details updated successfully");
+                res.status(200).json({ message: "Booking details updated successfully" });
+            }
+            console.log(id);
+            console.log(roomname);
+            console.log(checkindate);
+            console.log(checkoutdate);
+            console.log(fullprice);
+            console.log(discount);
+            console.log(priceVat);
+            console.log(price);
+
+        }
+    );
+});
 // const bookingData = {
 //     username: username,
 //     fullprice: totalCost, // Example values, replace with actual data
