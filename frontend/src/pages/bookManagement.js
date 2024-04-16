@@ -17,6 +17,7 @@ const BookingManagement = () => {
     const [checkoutdate, setCheckoutDate] = useState('');
     const [columnNames, setColumnNames] = useState([]);
     const [id, setId] = useState('');
+    const [bookingID, setBookingID] = useState('');
     const [roomname, setRoomname]= useState('');
     const [memberlist, setMemberlist] = useState([]);
     const [selectedMemberId, setSelectedMemberId] = useState('');
@@ -78,7 +79,7 @@ const BookingManagement = () => {
     if (!dateString) {
         return ''; // Return an empty string if dateString is null or undefined
     }
-    return format(new Date(dateString), 'MMMM do yyyy');
+    return format(new Date(dateString), 'MMMMddyyyy');
 };
 
 
@@ -130,20 +131,47 @@ const BookingManagement = () => {
   });
 
 
-  const calculate = (fullprice,discount) => {
+  const calculate = (fullprice,discount ,checkindate,checkoutdate,phonenumber) => {
     const vat = (fullprice - discount) * 0.07;
     const price = fullprice - discount + vat
     setPriceVat(vat);
     setPrice(price);
     const diffDays =  (checkoutdate -checkindate)/86400000 ;
     setDays(diffDays);
+
+    const bookingID = phonenumber ;
+
+    // Set the booking ID
+    setBookingID(bookingID);
   }
-  
   const handleEdit = () => {
     const confirmed = window.confirm("ยืนยันการจอง");
 
  
 
+    if (confirmed && bookingID) {
+      // Make HTTP request to update data
+      Axios.put(`http://localhost:${PORT}/roomcontrol/booking`, {
+        checkindate:checkindate,
+        checkoutdate:checkoutdate,
+        bookingID:bookingID,
+        roomname:roomname,
+      
+      })
+        .then((response) => {
+          // Handle successful response
+          console.log("Booking on calendar successfully:", response.data);
+          console.log("checkinDate",checkindate);
+          console.log("checkoutDate",checkoutdate);
+          console.log("BookingID",bookingID);
+    
+        })
+        .catch((error) => {
+          // Handle error
+          console.error("Error create booking:", error);
+        });
+     
+    }
     if (confirmed && phonenumber) {
       // Make HTTP request to update data
       Axios.post(`http://localhost:${PORT}/booking/create`, {
@@ -190,7 +218,7 @@ const BookingManagement = () => {
         })
         .catch((error) => {
           // Handle error
-          console.error("Error create member:", error);
+          console.error("Error create booking:", error);
         });
      
     }
@@ -326,7 +354,7 @@ const BookingManagement = () => {
                           onChange={(e) => {
                             const fullPriceValue = parseFloat(e.target.value);
                             setFullprice(fullPriceValue);
-                            calculate(fullprice, discount, checkindate, checkoutdate)
+                            calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
                             setPrevScore(score);
                           }} 
                         />
@@ -344,7 +372,7 @@ const BookingManagement = () => {
                           onChange={(e) => {
                             const discountValue = parseFloat(e.target.value);
                             setDiscount(discountValue);
-                            calculate(fullprice, discount, checkindate, checkoutdate)
+                            calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
                             
                           }} 
                         />
@@ -365,7 +393,7 @@ const BookingManagement = () => {
                           onChange={(e) => {
                             const remarkvalue = e.target.value;
                             setRemark(remarkvalue);
-                            calculate(fullprice, discount, checkindate, checkoutdate)
+                            calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
                           }} 
                         />
                       </div>
@@ -381,7 +409,7 @@ const BookingManagement = () => {
                           onChange={(e) => {
                             const addscore = e.target.value;
                             setAddScore(addscore);
-                            calculate(fullprice, discount, checkindate, checkoutdate)
+                            calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
 
                           }} 
                         />

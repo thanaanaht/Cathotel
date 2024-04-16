@@ -28,6 +28,7 @@ import IkkiHomePage from './pages/Ikkihomepage';
 import Dashboard from './pages/dashboard';
 
 import AdminCreate from './pages/adminCreacte';
+import BookingGet from './pages/bookingGet';
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
 
   
-
+          <Route path="booking/get" element = {<BookingGet/>}/>
           <Route path="booking/manament" element = {<BookingManagement/>}/>
           <Route path="booking/edit" element = {<BookingEdit/>}/>
           <Route path="booking/delete" element = {<BookingCancel/>}/>

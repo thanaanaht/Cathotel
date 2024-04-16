@@ -16,7 +16,7 @@ function Manubar() {
         <img src="http://localhost/logo.png" alt="logo cathotel" width="150" height="auto"/>
 
         
-      
+   
      
       <DropdownButton
         id="dropdown-button-dark-example2"
@@ -25,10 +25,11 @@ function Manubar() {
         className="mt-2"
         data-bs-theme="dark"
       >
-
+        <Dropdown.Item href="/booking/get">ค้นหาการจอง</Dropdown.Item>
         <Dropdown.Item href="/booking/manament">จองที่พัก</Dropdown.Item>
         <Dropdown.Item href="/booking/edit">แก้ไขการจอง</Dropdown.Item>
         <Dropdown.Item href="/booking/delete">ยกเลิกการจอง</Dropdown.Item>
+        
       </DropdownButton>
 
       <DropdownButton

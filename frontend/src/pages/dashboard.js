@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Manubar from '../components/Manubar';
+import { Axios } from 'axios';
+import ShowCalendar from '../components/showcalendar';
+
+const PORT = 3300;
 
 
  
 
 function Dashboard() {
+  const [datalist ,setDatalist] = useState([]);
   
 
 
@@ -14,7 +19,8 @@ function Dashboard() {
       <Manubar/>
     </div>
     <div className="col" style={{ backgroundColor: 'white' }}>
-        Dashboard
+     
+       <ShowCalendar/>
 
     </div>
     </div>
