@@ -73,6 +73,31 @@ Roomcontrol.post('/roomcontrol/deletecolumn', (req, res) => {
 });
 
 
+Roomcontrol.post('/roomcontrol/booking', (req, res) => {
+    const columnName = req.body.columnDelete;
+    console.log('columnDelete is:', columnName);
+
+    const alterQuery = `ALTER TABLE rooms DROP COLUMN ${columnName}`;
+    db.query(alterQuery, (alterErr, alterResult) => {
+        if (alterErr) {
+            console.error(`Error deleting column ${columnName} from 'rooms' table:`, alterErr);
+            res.status(500).json({
+                success: false,
+                message: 'Internal Server Error',
+                error: alterErr
+            });
+        } else {
+            // Successfully deleted the column from the table
+            res.status(200).json({
+                success: true,
+                message: `Column ${columnName} deleted successfully`
+            });
+           
+        }
+    });
+});
+
+
 
 Roomcontrol.get('/roomcontrol/columnnames', (req, res) => {
     const tableName = 'rooms'; // Assuming the table name is 'rooms', you can replace it with your actual table name if different
@@ -116,32 +141,20 @@ Roomcontrol.get('/roomcontrol', (req, res) => {
         }
     });
 });
-Roomcontrol.put('/roomcontrol/update', (req, res) => {
-    const datestart = req.body.checkindate;
-    const dateend = req.body.checkoutdate;
-    const newStatus = req.body.bookingId;
-    const columnName = req.body.roomname;
 
-    console.log("datestart", datestart);
-    console.log("dateend", dateend);
-    console.log("newStatus", newStatus);
-    console.log("columnName", columnName);
+Roomcontrol.put('/roomcontrol/edit', (req, res) => {
+    const { oldColumnName, newColumnName } = req.body;
 
-    // Use string interpolation to dynamically insert the column name
-    const query = `UPDATE rooms SET ${columnName} = ? WHERE date BETWEEN ? AND ?`;
-
-    db.query(query, [newStatus, datestart, dateend], (err, result) => {
-        if (err) {
-            console.error("Error updating status:", err);
-            res.status(500).json({ error: "An error occurred while updating status" });
-        } else if (result.affectedRows === 0) {
-            console.error("No rows were affected by the update");
-            res.status(404).json({ error: "No booking found within the provided date range" });
+    // Perform the database update
+    const query = `ALTER TABLE rooms CHANGE COLUMN ${oldColumnName} ${newColumnName} VARCHAR(255)`;
+    db.query(query, (error, results, fields) => {
+        if (error) {
+            console.error('Error updating column name:', error);
+            res.status(500).json({ success: false, message: 'Failed to update column name' });
         } else {
-            console.log("Status updated successfully");
-            res.status(200).json({ message: "Status updated successfully" });
+            console.log('Column name updated successfully');
+            res.status(200).json({ success: true, message: 'Column name updated successfully' });
         }
-
     });
 });
 

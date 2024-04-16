@@ -1,23 +1,26 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Axios from 'axios';
+import Manubar from '../components/Manubar'
 
 const InvoiceDelete = () => {
-    const contentToPrint = useRef(null);
-    const [id, setId] = useState();
-    const [getid, setGetid] = useState(0);
-    const [username, setUsername] = useState('no login');
-    const [checkindate, setCheckindate] = useState('');
-    const [checkoutdate, setCheckoutdate] = useState('');
-    const [fullprice, setFullprice] = useState(0);
-    const [discount, setDiscount] = useState(0);
-    const [priceVat, setPriceVat] = useState(0);
-    const [price, setPrice] = useState(0);
-    const [days, setDays] = useState(0);
-    const [details, setDetails] = useState('');
-    const [bookingdate, setBookingdate] = useState('');
-    const [bookinglist, setBookinglist] = useState([]);
-    const PORT = 3300;
+  const contentToPrint = useRef(null);
+  const [id, setId] = useState('');
+  const [username, setUsername] = useState('no login');
+  const [checkindate, setCheckindate] = useState('');
+  const [checkoutdate, setCheckoutdate] = useState('');
+  const [fullprice, setFullprice] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [priceVat, setPriceVat] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [days, setDays] = useState(0);
+  const [details, setDetails] = useState('');
+  const [bookinglist, setBookinglist] = useState([]);
+  const [roomname, setRoomName] = useState('');
+  const [company, setCompany] = useState('');
+  const [companyaddress, setCompanyAddress] = useState('');
+  const [columnNames, setColumnNames] = useState([]);
+  const PORT = 3300;
 
   useEffect(() => {
     Axios.get(`http://localhost:${PORT}/bookingcontrol`)
@@ -37,21 +40,15 @@ const InvoiceDelete = () => {
     setId(event.target.value);
   };
 
-  const handlePrint = useReactToPrint({
-    documentTitle: "Print This Document",
-    onBeforePrint: () => console.log("before printing..."),
-    onAfterPrint: () => console.log("after printing..."),
-    removeAfterPrint: true,
-  });
 
-  const deleteInvoice = (idToDelete) => { // Pass id as a parameter
+  const deleteInvoice = () => {
     const confirmed = window.confirm("ยืนยันการลบใบเสร็จรับเงิน/ใบกำกับภาษี");
-    if (confirmed && idToDelete) { // Check idToDelete instead of id
-      Axios.delete(`http://localhost:${PORT}/bookingcontrol/deletebooking/${idToDelete}`) // Use idToDelete in the URL
+    if (confirmed && id) { // Check if id is present
+      Axios.delete(`http://localhost:${PORT}/bookingcontrol/deletebooking/${id}`)
         .then(response => {
           console.log('Invoice deleted successfully:', response.data);
           // Update bookinglist state to remove the deleted invoice
-          setBookinglist(bookinglist.filter(booking => booking.id !== idToDelete));
+          setBookinglist(bookinglist.filter(booking => booking.id !== id));
           // Reset selected ID
           setId('');
           alert("ลบใบเสร็จรับเงิน/ใบกำกับภาษีสำเร็จแล้ว");
@@ -62,9 +59,16 @@ const InvoiceDelete = () => {
         });
     }
   };
+  
 
-  return (
-    <div className="container mt-5">
+
+    return (
+      <div className="row">
+      <div className="col-6 col-md-2" style={{ backgroundColor: 'black' }}>
+        <Manubar/>
+      </div>
+      <div className="col" style={{ backgroundColor: 'white' }}>
+      <div className="container mt-5">
       <h1>ลบใบเสร็จรับเงิน/ใบกำกับภาษี</h1>
       <select className="form-select mb-3" onChange={handleSelectChange} value={id}>
         <option value="">เลือก Booking ID</option>
@@ -74,18 +78,15 @@ const InvoiceDelete = () => {
           </option>
         ))}
       </select>
-
       {id && (
         <div ref={contentToPrint} className='invoice'>
+          <hr/>
           <h2 className='text-center mb-4'>ใบเสร็จรับเงิน/ใบกำกับภาษี</h2>
           <div className='row mb-3'>
             <div className='col-6'>
-              <div>เลขที่ CT256700{id}</div>
-              <div>99/99 ถ.ทองหล่อ เขตพระนคร</div>
-              <div>แขวงพระนคร กรุงเทพ 10230</div>
-            </div>
-            <div className='col-6 text-end'>
-              <button className='btn btn-primary' onClick={() => handlePrint(null, () => deleteInvoice(id))}>Delete</button>
+              <div>เลขที่ CT2567{id}</div>
+              <div>{company}</div>
+              <div>{companyaddress}</div>
             </div>
           </div>
           <table className="table table-bordered">
@@ -102,7 +103,7 @@ const InvoiceDelete = () => {
             <tbody>
               <tr>
                 <td>{id}</td>
-                <td>เข้าพัก</td>
+                <td>เข้าพัก {roomname}</td>
                 <td>{new Date(checkindate).toLocaleDateString()}</td>
                 <td>{new Date(checkoutdate).toLocaleDateString()}</td>
                 <td>{days}</td>
@@ -134,10 +135,19 @@ const InvoiceDelete = () => {
               <div className='col text-start'>{price} บาท</div>
             </div>
           </div>
+          <hr/>
+          <div className="text-center">
+            <button className='btn btn-primary' onClick={deleteInvoice}>Delete</button>
+          </div>
         </div>
       )}
     </div>
-  );
+  
+    </div>
+    </div>
+    );
+
+
 }
 
 export default InvoiceDelete;

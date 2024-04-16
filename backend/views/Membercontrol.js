@@ -60,30 +60,41 @@ Membercontrol.get('/member', (req, res) => {
         }
     });
 });
-
+// name: name,
+// surname: surname,
+// phonenumber: phonenumber,
+// idnumber: idnumber,
+// lineid: lineid,
+// address: address,
+// catsnumber: catsnumber,
+// score: score,
+// remark: remark,
 // Route to create a new member
-Membercontrol.post('/membercreate', async (req, res) => {
+Membercontrol.post('/member/create', async (req, res) => {
     try {
         const saltRounds = process.env.SALT_ROUNDS || 10; // default to 10 rounds if not provided
         // const password = req.body.password ;
-        const { username,  password, contact, catsnumber, remark, score } = req.body;
-        const hashedpassword = await bcrypt.hash(password, parseInt(saltRounds));
+        const { name,  surname, phonenumber, idnumber, lineid , address , catsnumber, score, remark   } = req.body;
+
 
 
         // SQL Query
-        const sql = "INSERT INTO member (username, password, contact, catsnumber, remark, score) VALUES (?, ?, ?, ?, ?, ?)";
+        const sql = "INSERT INTO member (name,  surname, phonenumber, idnumber, lineid , address , catsnumber, score, remark ) VALUES (?, ?, ?, ?, ? ,? , ?, ?, ?)";
         
         // Execute the query with parameters
         const result = await dbQueryPromise(sql, [
-            username, hashedpassword, contact, catsnumber, remark, score,
+            name,  surname, phonenumber, idnumber, lineid , address , catsnumber, score, remark ,
         ]);
-        console.log("username:",username);
-        console.log("password:",password);
-        console.log("hashedpassword:",hashedpassword);
-        console.log("contact:",contact);
+        console.log("name:",name);
+        console.log("surname:",surname);
+        console.log("phonenumber:",phonenumber);
+        console.log("idnumber:",idnumber);
+        console.log("lineid:",lineid);
+        console.log("address:",address);
         console.log("catsnumber:",catsnumber);
-        console.log("remark:",remark);
+        console.log("idnumber:",idnumber);
         console.log("score:",score);
+        console.log("remark:",remark);
         // Send success response
         res.status(201).json({
             success: true,
@@ -99,6 +110,66 @@ Membercontrol.post('/membercreate', async (req, res) => {
         });
     }
 });
+
+// Assuming Membercontrol is an instance of Express Router
+Membercontrol.put('/member/update', (req, res) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const phonenumber = req.body.phonenumber;
+    const idnumber = req.body.idnumber;
+    const lineid = req.body.lineid;
+    const address = req.body.address;
+    const catsnumber = req.body.catsnumber;
+    const score = req.body.score;
+    const remark = req.body.remark;
+
+    console.log("name", name);
+    console.log("surname", surname);
+    console.log("phonenumber", phonenumber);
+    console.log("idnumber", idnumber);
+    
+    // Execute the query with the provided parameters
+    db.query(`UPDATE member SET name = ?,surname = ?, phonenumber = ?,idnumber = ?,  lineid = ?,address = ?,catsnumber = ?,score  = ?, remark = ? WHERE id = ?`, 
+    [name, surname, phonenumber, idnumber, lineid, address, catsnumber, score, remark , id], (err, result) => {
+        if (err) {
+            console.error("Error updating member:", err);
+            res.status(500).json({ error: "An error occurred while updating member" });
+        } else if (result.affectedRows === 0) {
+            console.error("No member was updated");
+            res.status(404).json({ error: "No member found with the provided ID" });
+        } else {
+            console.log("Member updated successfully");
+            res.status(200).json({ message: "Member updated successfully" });
+        }
+    });
+});
+
+Membercontrol.delete('/member/delete', (req, res) => {
+    const memberId = req.body.id;
+  
+    // Check if memberId is provided
+    if (!memberId) {
+      return res.status(400).json({ error: 'Member ID is required' });
+    }
+  
+    // Delete member from the database
+    db.query('DELETE FROM member WHERE id = ?', [memberId], (err, result) => {
+      if (err) {
+        console.error('Error deleting member:', err);
+        return res.status(500).json({ error: 'An error occurred while deleting member' });
+      }
+  
+      // Check if any rows were affected
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Member not found' });
+      }
+  
+      // Member deleted successfully
+      res.status(200).json({ message: 'Member deleted successfully' });
+    });
+  });
+
 
 // Middleware to release database connection
 Membercontrol.use((req, res, next) => {

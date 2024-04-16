@@ -3,6 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Stack } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Manubar from '../components/Manubar';
 
 
 function InvoiceEditAddress() {
@@ -11,6 +12,7 @@ function InvoiceEditAddress() {
 
   return (
     <div>
+      <Manubar/>
         InvoiceEditAddress
 
     </div>

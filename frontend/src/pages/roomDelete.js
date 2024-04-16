@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from 'axios'; 
+import Manubar from '../components/Manubar';
 
 const PORT = 3300;
 
@@ -37,6 +38,11 @@ const RoomDelete = () => {
     };
 
     return (
+        <div className="row">
+        <div className="col-6 col-md-2" style={{ backgroundColor: 'black' }}>
+          <Manubar/>
+        </div>
+        <div className="col" style={{ backgroundColor: 'white' }}>
         <div className="container mt-5">
             <h1>ลบห้อง</h1>
             <ul className="list-group">
@@ -47,6 +53,11 @@ const RoomDelete = () => {
                     </li>
                 ))}
             </ul>
+        </div>
+
+        </div>
+
+   
         </div>
     );
 }

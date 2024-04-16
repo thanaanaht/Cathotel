@@ -6,6 +6,7 @@ function CheckLogin() {
   const PORT = 3300;
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     Axios.get(`http://localhost:${PORT}/login`)

@@ -2,10 +2,9 @@
 import { createRoot } from 'react-dom/client'; 
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Home from "./Home";
 import LoginPage from "./pages/LoginPage"
 import Footer from "./components/footer"
-import Manubar from './components/Manubar';
+
 
 import BookingEdit from './pages/bookEdit';
 import BookingCancel from './pages/bookCancel';
@@ -24,7 +23,11 @@ import InvoiceEdit from './pages/invoiceEdit';
 import InvoicePrint from './pages/invoicePrint';
 import InvoiceEditAddress from './pages/invoiceEditaddress';
 
-import CheckLogin from './components/checklogin';
+
+import IkkiHomePage from './pages/Ikkihomepage';
+import Dashboard from './pages/dashboard';
+
+import AdminCreate from './pages/adminCreacte';
 
 
 function App() {
@@ -32,11 +35,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Manubar/>
+      
       <Routes>
-          <Route path="" element={<Home />} />
-          <Route path="home" element={<Home />} />
+          <Route path="" element={<IkkiHomePage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="dashboard" element={<Dashboard />} />
+
+  
 
           <Route path="booking/manament" element = {<BookingManagement/>}/>
           <Route path="booking/edit" element = {<BookingEdit/>}/>
@@ -54,6 +59,10 @@ function App() {
           <Route path="invoice/editbill" element = {<InvoiceEdit/>}/>
           <Route path="invoice/editaddress" element = {<InvoiceEditAddress/>}/>
           <Route path="invoice/delete" element = {<InvoiceDelete/>}/>
+
+          <Route path="admin" element = {<AdminCreate/>}/>
+
+
  
         <Route  />
       </Routes>

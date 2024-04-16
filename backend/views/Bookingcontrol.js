@@ -92,15 +92,26 @@ Bookingcontrol.put('/updateInvoice/:id', (req, res) => {
         }
     );
 });
-// const bookingData = {
-//     username: username,
-//     fullprice: totalCost, // Example values, replace with actual data
-//     discount: 0,
-//     priceVat: 0,
-//     detail: 'Example booking detail',
-//     checkindate: pickupDate,
-//     checkoutdate: returnDate
-//   };
+
+Bookingcontrol.delete('/bookingcontrol/deletebooking/:id', (req, res) => {
+    const id = req.params.id;
+    req.dbConnection.query("DELETE FROM booking WHERE id = ?", id, (err, result) => {
+        if (err) {
+            console.error('Error deleting tabien entry:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Internal Server Error',
+            });
+        } else {
+            res.json({
+                success: true,
+                message: 'Tabien entry deleted successfully',
+            });
+        }
+        console.log("delete id:",id)
+    });
+});
+
 Bookingcontrol.post('/bookingcontrolroomcreate', async (req, res) => {
     try {
         const {username, fullprice, discount, priceVat, details, checkindate, checkoutdate ,days} = req.body;
@@ -149,6 +160,87 @@ Bookingcontrol.post('/bookingcontrol', (req, res) => {
         }
     });
 });
+Bookingcontrol.post('/booking/create', (req, res) => {
+    const {
+        checkindate,
+        checkoutdate,
+        fullprice,
+        discount,
+        price,
+        priceVat,
+        details,
+        days,
+        company,
+        companyaddress,
+        roomname,
+        prevscore,
+        addscore,
+        remark,
+        name,
+        surname,
+        phonenumber
+    } = req.body;
+
+    function formatDate(date) {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = ('0' + (d.getMonth() + 1)).slice(-2);
+        const day = ('0' + d.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
+    }
+
+    // Format checkindate and checkoutdate to 'YYYY-MM-DD' format
+    const formattedCheckinDate = formatDate(checkindate);
+    const formattedCheckoutDate = formatDate(checkoutdate);
+
+    // Construct the SQL query with parameterized values
+    const query = `INSERT INTO booking (checkindate, checkoutdate, fullprice, discount, price, 
+                   priceVat, details, days, company, companyaddress, roomname, prevscore, 
+                   addscore, remark, name, surname, phonenumber) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    // Prepare the values to be inserted into the database
+    const values = [
+        formattedCheckinDate,
+        formattedCheckoutDate,
+        fullprice,
+        discount,
+        price,
+        priceVat,
+        details,
+        days,
+        company,
+        companyaddress,
+        roomname,
+        prevscore,
+        addscore,
+        remark,
+        name,
+        surname,
+        phonenumber
+    ];
+
+    // Execute the query with the provided values
+    db.query(query, values, (err, result) => {
+        if (err) {
+            console.error(`Error inserting booking:`, err);
+            res.status(500).json({
+                success: false,
+                message: 'Internal Server Error',
+            });
+        } else {
+            res.send(result);
+            console.log("successfully")
+
+        }
+    });
+
+});
+
+
+
+
+
 
 Bookingcontrol.get('/bookingcontrol', (req, res) => {
     const query = `SELECT * FROM booking`;

@@ -1,12 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Axios from 'axios';
+import Manubar from '../components/Manubar';
 
 const InvoicePrint = () => {
   const contentToPrint = useRef(null);
-  const [id, setId] = useState();
-  const [getid, setGetid] = useState(0);
-  const [username, setUsername] = useState('no login');
+  const [id, setId] = useState('');
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+
   const [checkindate, setCheckindate] = useState('');
   const [checkoutdate, setCheckoutdate] = useState('');
   const [fullprice, setFullprice] = useState(0);
@@ -14,11 +16,16 @@ const InvoicePrint = () => {
   const [priceVat, setPriceVat] = useState(0);
   const [price, setPrice] = useState(0);
   const [days, setDays] = useState(0);
-  const [details, setDetails] = useState('');
-  const [Bookingdate,setBookingdate] = useState('');
-  const [company, setCompany]=useState('')
-  const [companyaddress, setCompanyAddress]=useState('')
+  const [score, setScore] = useState(0);
+  const [addscore, setAddscore] = useState(0);
+  const [remark, setRemark] = useState('');
+  const [phonenumber, setPhoneNumber] = useState('');
   const [bookinglist, setBookinglist] = useState([]);
+  const [roomname, setRoomName] = useState('');
+  const [company, setCompany] = useState('');
+  const [companyaddress, setCompanyAddress] = useState('');
+
+
   const PORT = 3300;
 
   useEffect(() => {
@@ -43,27 +50,27 @@ const InvoicePrint = () => {
     const selectedBooking = bookinglist.find(booking => booking.id === parseInt(selectedId));
  
 
-    // Update state variables with the selected booking's data
     if (selectedBooking) {
-      setGetid(selectedBooking.id);
-      setUsername(selectedBooking.username);
       setCheckindate(selectedBooking.checkindate);
       setCheckoutdate(selectedBooking.checkoutdate);
       setFullprice(selectedBooking.fullprice);
       setDiscount(selectedBooking.discount);
-      setDays(selectedBooking.days);
       setPriceVat(selectedBooking.priceVat);
-      setDetails(selectedBooking.details);
-      setBookingdate(selectedBooking.bookingdate);
+      setPhoneNumber(selectedBooking.phonenumber);
+      setPrice(selectedBooking.price);
+      setDays(selectedBooking.days)
       setCompany(selectedBooking.company);
       setCompanyAddress(selectedBooking.companyaddress);
-      console.log("company is:",company);
-      console.log("companyaddress is:",companyaddress);
+      setRoomName(selectedBooking.roomname);
+      setScore(selectedBooking.score);
+      setAddscore(selectedBooking.addscore);
+      setRemark(selectedBooking.addscore);
+      setName(selectedBooking.name)
+      setSurname(selectedBooking.surname)
+      setRemark(selectedBooking.remark)
 
-      // {"id":14,"username":null,"checkindate":"2024-03-31T17:00:00.000Z","checkoutdate":"2024-04-01T17:00:00.000Z",
-      //"fullprice":800,"discount":null,"price":800,"priceVat":null,"details":null,"bookingdate":"2024-04-13T02:06:00.000Z",
-      //"days":1,"company":"Ikki Cat Hotel","companyaddress":"17/243 Pracha Chuen 14 Alley, Lane 14, Thung Song Hong, Lak Si, Bangkok 10210"}]
-
+ 
+      
     }
   };
 
@@ -74,9 +81,15 @@ const InvoicePrint = () => {
     removeAfterPrint: true,
   });
 
-  return (
-    <div className="container mt-5">
-        <h1>พิมพ์</h1>
+
+    return (
+      <div className="row">
+      <div className="col-6 col-md-2" style={{ backgroundColor: 'black' }}>
+        <Manubar/>
+      </div>
+      <div className="col" style={{ backgroundColor: 'white' }}>
+      <div className="container mt-5">
+        <h1>พิมพ์ใบเสร็จรับเงิน/ใบกำกับภาษี</h1>
       <select className="form-select mb-3" onChange={handleSelectChange} value={id}>
         <option value="">Select Booking ID</option>
         {bookinglist.map((val, key) => (
@@ -88,15 +101,17 @@ const InvoicePrint = () => {
 
       {id && (
         <div ref={contentToPrint} className='invoice'>
-                    <hr/>
+          <hr/>
           <h2 className='text-center mb-4'>ใบเสร็จรับเงิน/ใบกำกับภาษี</h2>
           <div className='row mb-3'>
             <div className='col-6'>
-              <div>เลขที่ CT2567{id}</div>
+              <div>เลขที่ :{id}</div>
               <div>{company}</div>
               <div>{companyaddress}</div>
             </div>
-
+          <div>
+            {name}   {surname}   {phonenumber}
+          </div>
           </div>
           <table className="table table-bordered">
             <thead>
@@ -112,7 +127,7 @@ const InvoicePrint = () => {
             <tbody>
               <tr>
                 <td>{id}</td>
-                <td>เข้าพัก</td>
+                <td>เข้าพัก {roomname}</td>
                 <td>{new Date(checkindate).toLocaleDateString()}</td>
                 <td>{new Date(checkoutdate).toLocaleDateString()}</td>
                 <td>{days}</td>
@@ -144,14 +159,24 @@ const InvoicePrint = () => {
               <div className='col text-start'>{price} บาท</div>
             </div>
           </div>
+           <div >คะแนนรวม {score}</div>
+           <div >คะแนนที่ได้รับ {addscore}</div>
+           <div>หมายเหตุ: {remark}</div>
           <hr/>
-          <div className='col-6 text-end'>
-              <button className='btn btn-primary' onClick={() => handlePrint(null, () => contentToPrint.current)}>Print</button>
-            </div>
         </div>
       )}
+
+
+        <div className='col-6 text-end'>
+          <button className='btn btn-primary' onClick={() => handlePrint(null, () => contentToPrint.current)}>Print</button>
+        </div>
     </div>
-  );
+  
+      </div>
+      </div>
+    ); 
+
+
 }
 
 export default InvoicePrint;

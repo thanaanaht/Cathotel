@@ -14,7 +14,7 @@ function LoginPage() {
 
   useEffect(() => {
     const resLogin = () => {
-      Axios.get(`http://localhost:${PORT}/login`)
+      Axios.get(`http://localhost:${PORT}/login/admin`)
         .then(response => {
           console.log(response.data);
 
@@ -46,7 +46,7 @@ function LoginPage() {
       return;
     }
 
-    Axios.post(`http://localhost:${PORT}/login`, {
+    Axios.post(`http://localhost:${PORT}/login/admin`, {
       username,
       password,
     })

@@ -1,15 +1,19 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { Stack } from 'react-bootstrap';
+import { Button, Stack } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CheckLogin from './checklogin'
+// import CheckLogin from './checklogin'
 
 function Manubar() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '0px', width: '100%' }}>
+      {/* <div style={{ backgroundColor: 'black', color: 'white', width: '100%',textAlign:'center',padding:'10px'}}>
+        <CheckLogin />
+      </div> */}
 
-      <Stack direction="horizontal" gap={3} style={{ backgroundColor: 'pink', flexDirection: 'row', display: 'flex' ,padding:'20px' }}>
-        <img src="http://localhost/logo.jpg" alt="logo cathotel" width="200" height="100"/>
+
+      <Stack direction="horizontal" gap={3} style={{ backgroundColor: 'black', flexDirection: 'column', display: 'flex',marginBottom: '200px',padding:'100px',width: '200px' }}>
+        <img src="http://localhost/logo.png" alt="logo cathotel" width="150" height="auto"/>
 
         
       
@@ -63,12 +67,9 @@ function Manubar() {
         <Dropdown.Item href="/invoice/print">พิมพ์ใบกำกับภาษี</Dropdown.Item>
         <Dropdown.Item href="/invoice/editbill">แก้ไขใบกำกับภาษี</Dropdown.Item>
         <Dropdown.Item href="/invoice/delete">ลบข้อมูลใบกำกับภาษี</Dropdown.Item>
-        <Dropdown.Item href="/invoice/editaddress">แก้ไขที่อยู่</Dropdown.Item>
         
       </DropdownButton>
-      <div style={{ backgroundColor: 'pink', color: 'white', width: '100%', justifyContent: 'flex-end' ,textAlign:'end',padding:'20px'}}>
-        <CheckLogin />
-      </div>
+
 
       </Stack>
 

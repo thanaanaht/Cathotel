@@ -4,7 +4,8 @@ const cors = require('cors');
 const Logincontrol = require('./views/Logincontrol');
 const Membercontrol = require('./views/Membercontrol');
 const Bookingcontrol = require('./views/Bookingcontrol');
-const Roomcontrol = require('./views/Roomcontrol')
+const Roomcontrol = require('./views/Roomcontrol');
+const AdminControl = require('./views/admincontrol');
 
 const PORT =3300;
 app.use(cors());
@@ -13,6 +14,7 @@ app.use(Logincontrol);
 app.use(Membercontrol);
 app.use(Bookingcontrol);
 app.use(Roomcontrol);
+app.use(AdminControl);
 
 // Set the port to 0 to dynamically assign an available port
 // const server = app.listen(0, () => {

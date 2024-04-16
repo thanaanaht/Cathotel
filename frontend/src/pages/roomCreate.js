@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios"; 
+import Manubar from "../components/Manubar";
 
 const PORT = 3300;
 
@@ -25,6 +26,11 @@ const RoomCreate = () => {
     };
 
     return (
+        <div className="row">
+        <div className="col-6 col-md-2" style={{ backgroundColor: 'black' }}>
+          <Manubar/>
+        </div>
+        <div className="col" style={{ backgroundColor: 'white' }}>
         <div className="container mt-5">
             <h1 className="mb-4">สร้างห้อง</h1>
             
@@ -43,25 +49,17 @@ const RoomCreate = () => {
                             onChange={(event) => setRoomname(event.target.value)}
                         />
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="roomtype" className="form-label">
-                            ชนิดของห้อง:
-                        </label>
-                        <input 
-                            type="text"
-                            className="form-control"
-                            id="roomname"
-                            placeholder="Enter room name"
-                            value={roomtype}
-                            onChange={(event) => setRoomtype(event.target.value)}
-                        />
-                    </div>
+                    
                     <button type="button" className="btn btn-success" onClick={add}>เพิ่มห้อง</button>
                 </form>
                 
             </div>
             <hr />
         </div>
+    
+        </div>
+        </div>
+
     );
 }
 

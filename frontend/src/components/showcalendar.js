@@ -4,12 +4,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
 import StatusRoom from "./statusRoom";
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const PORT = 3300;
 
 const ShowCalendar = () => {
     const [calendarData, setCalendarData] = useState([]);
-    const [selectedMonth, setSelectedMonth] = useState(new Date());
     const [checkinDate, setCheckinDate] = useState(new Date());
     const [checkoutDate, setCheckoutDate] = useState(new Date());
     const [availableRooms, setAvailableRooms] = useState([]);
@@ -44,23 +44,28 @@ const ShowCalendar = () => {
     });
 
     return (
-        <div>
-            <h1>Calendar</h1>
-            <div>
-                <DatePicker selected={checkinDate} onChange={(date) => setCheckinDate(date)} />
+        <div className="container mt-5"> {/* Bootstrap container class */}
+            <h1 className="text-center mb-4">Calendar</h1> {/* Bootstrap text-center class */}
+            <div className="row mb-3">
+                <div className="col">
+                    <DatePicker selected={checkinDate} onChange={(date) => setCheckinDate(date)} className="form-control" />
+                </div>
+                <div className="col">
+                    <DatePicker 
+                        selected={checkoutDate} 
+                        onChange={(date) => setCheckoutDate(date)} 
+                        minDate={checkinDate}
+                        className="form-control"
+                    />
+                </div>
+                <div className="col-auto">
+                    <button onClick={searchRoomavailable} className="btn btn-primary">Submit</button> {/* Bootstrap button classes */}
+                </div>
             </div>
-            <div>
-                <DatePicker 
-                    selected={checkoutDate} 
-                    onChange={(date) => setCheckoutDate(date)} 
-                    minDate={checkinDate}
-                />
-            </div>
-            <button onClick={searchRoomavailable}>Submit</button>
             <div>Check in date: {formatDate(checkinDate)}</div>
             <div>Check out date: {formatDate(checkoutDate)}</div>
             
-            <table>
+            <table className="table"> {/* Bootstrap table class */}
                 <thead>
                     <tr>
                         <th>Date</th>

@@ -31,14 +31,14 @@ function generateToken() {
 }
 
 // login
-Logincontrol.post('/login', async (req, res) => {
+Logincontrol.post('/login/admin', async (req, res) => {
   try {
     const { username, password } = req.body;
 
     // Use the database to get user details
-    db.query("SELECT * FROM member WHERE username = ?", [username], (err, result) => {
+    db.query("SELECT * FROM admin WHERE username = ?", [username], (err, result) => {
       if (err) {
-        console.error('Error querying member:', err);
+        console.error('Error querying admin:', err);
         res.status(500).json({
           success: false,
           message: 'Internal Server Error',
@@ -48,8 +48,6 @@ Logincontrol.post('/login', async (req, res) => {
 
         if (user) {
           loggedUser = user.username;
-          loggedArea = user.area;
-          loggedLocal = user.local;
           loggedLevel = user.level;
 
           bcrypt.compare(password,user.password ,(err, result) => {
@@ -94,7 +92,7 @@ Logincontrol.post('/login', async (req, res) => {
 
 
 
-Logincontrol.get('/login', (req, res) => {
+Logincontrol.get('/login/admin', (req, res) => {
   if (!loggedInToken) {
     console.error('Error: no login');
     res.status(500).json({
@@ -105,8 +103,6 @@ Logincontrol.get('/login', (req, res) => {
       success: true,
       token: loggedInToken,
       username: loggedUser,
-      area:loggedArea,
-      local:loggedLocal,
       level:loggedLevel,
     });
   }
