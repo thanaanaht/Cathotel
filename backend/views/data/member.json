@@ -1,0 +1,17 @@
+[
+{"type":"header","version":"5.1.2","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"cathotel"},
+{"type":"table","name":"member","database":"cathotel","data":
+[
+{"id":"9","name":"NTest01111","surname":"STest011111","phonenumber":"0936516617","idnumber":"1234567890123","lineid":"tpnui1","address":"11120 ซอย แจ้งวัฒนะ-ปากเกร็ด 23 ตำบลคลองเกลือ อำเภอปากเกร็ด นนทบุรี 11120","catsnumber":"3","score":"0","remark":""},
+{"id":"10","name":"NTest02","surname":"STest02","phonenumber":"0936516618","idnumber":"1234567890124","lineid":"tpnui2","address":"11120 ซอย แจ้งวัฒนะ-ปากเกร็ด 23 ตำบลคลองเกลือ อำเภอปากเกร็ด นนทบุรี 11120","catsnumber":"4","score":"0","remark":""},
+{"id":"11","name":"NTest03","surname":"STest03","phonenumber":"0936516619","idnumber":"1234567890125","lineid":"tpnui3","address":"11121 ซอย แจ้งวัฒนะ-ปากเกร็ด 23 ตำบลคลองเกลือ อำเภอปากเกร็ด นนทบุรี 11120","catsnumber":"4","score":"0","remark":""},
+{"id":"12","name":"NTest04","surname":"STest04","phonenumber":"0936516611","idnumber":"1234567890126","lineid":"tpnui4","address":"11133 ซอย แจ้งวัฒนะ-ปากเกร็ด 23 ตำบลคลองเกลือ อำเภอปากเกร็ด นนทบุรี 11120","catsnumber":"1","score":"0","remark":""},
+{"id":"13","name":"NTest05","surname":"STest05","phonenumber":"0936516612","idnumber":"1234567890127","lineid":"tpnui5","address":"21133 ซอย แจ้งวัฒนะ-ปากเกร็ด 23 ตำบลคลองเกลือ อำเภอปากเกร็ด นนทบุรี 11120","catsnumber":"1","score":"0","remark":""},
+{"id":"14","name":"NTest06","surname":"STest06","phonenumber":"0936516613","idnumber":"1234567890127","lineid":"tpnui6","address":"21133 ซอย แจ้งวัฒนะ-ปากเกร็ด 23 ตำบลคลองเกลือ อำเภอปากเกร็ด นนทบุรี 11120","catsnumber":"2","score":"0","remark":""},
+{"id":"15","name":"NTest07","surname":"STest07","phonenumber":"0936516614","idnumber":"1234567890128","lineid":"tpnui7","address":"21153 ซอย แจ้งวัฒนะ-ปากเกร็ด 23 ตำบลคลองเกลือ อำเภอปากเกร็ด นนทบุรี 11120","catsnumber":"4","score":"0","remark":""},
+{"id":"16","name":"NTest08","surname":"STest08","phonenumber":"0936516615","idnumber":"123456789014","lineid":"tpnui8","address":"21653 ซอย แจ้งวัฒนะ-ปากเกร็ด 23 ตำบลคลองเกลือ อำเภอปากเกร็ด นนทบุรี 11120","catsnumber":"4","score":"0","remark":""},
+{"id":"17","name":"NTest0155","surname":"STest0155","phonenumber":"0936516617","idnumber":"1234567890123","lineid":"tpnui1","address":"11120 ซอย แจ้งวัฒนะ-ปากเกร็ด 23 ตำบลคลองเกลือ อำเภอปากเกร็ด นนทบุรี 11120","catsnumber":"3","score":"0","remark":""}
+]
+}
+]

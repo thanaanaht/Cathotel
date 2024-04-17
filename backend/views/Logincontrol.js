@@ -9,8 +9,6 @@ const Logincontrol = express.Router();
 Logincontrol.use(bodyParser.json());
 let loggedInToken = null;
 let loggedUser = null;
-let loggedArea = null;
-let loggedLocal = null;
 let loggedLevel = null;
 
 Logincontrol.use(cors());
@@ -28,6 +26,7 @@ const db = mysql.createPool(dbConfig);
 
 function generateToken() {
   loggedInToken = jwt.sign({ foo: 'bar' }, 'shhhhh', { expiresIn: 10 });
+
 }
 
 // login
@@ -72,7 +71,7 @@ Logincontrol.post('/login/admin', async (req, res) => {
           });
         } else {
           console.log("User not found");
-          loggedInToken = null;
+          loggedInToken = username;
           res.json({
             success: false,
             message: 'Invalid username or password',

@@ -11,11 +11,10 @@ const PORT = 3300;
 const BookingManagement = () => {
 
     const [calendarData, setCalendarData] = useState([]);
-    const [checkindate, setCheckinDate] = useState('');
-    const [checkoutdate, setCheckoutDate] = useState('');
+    const [checkindate, setCheckinDate] = useState(new Date());
+    const [checkoutdate, setCheckoutDate] = useState(new Date());
     const [columnNames, setColumnNames] = useState([]);
     const [id, setId] = useState('');
-    const [bookingID, setBookingID] = useState('');
     const [roomname, setRoomname]= useState('');
     const [memberlist, setMemberlist] = useState([]);
     const [selectedMemberId, setSelectedMemberId] = useState('');
@@ -32,10 +31,10 @@ const BookingManagement = () => {
     const [address, setAddress] = useState('');
     const [catsnumber, setCatsnumber] = useState(0);
     const [score, setScore] = useState(0);
-    const [addscore, setAddScore] = useState(0);
-    const [prevscore, setPrevScore] = useState(0);
     const [searchPhoneNumber, setSearchPhoneNumber] = useState('');
     const [errortext,setErrorText] = useState('');
+    const [addscore, setAddScore] = useState(0);
+    const [prevscore,setPrevScore] = useState(0);
     const [details, setDetails] = useState('');
     const [days,setDays] = useState(0);
     const company = 'Ikki Cat Hotel';
@@ -77,7 +76,7 @@ const BookingManagement = () => {
     if (!dateString) {
         return ''; // Return an empty string if dateString is null or undefined
     }
-    return format(new Date(dateString), 'MMMMddyyyy');
+    return format(new Date(dateString), 'MMMM do yyyy');
 };
 
 
@@ -104,7 +103,7 @@ const BookingManagement = () => {
         setLineid(foundMember.lineid);
         setAddress(foundMember.address);
         setCatsnumber(foundMember.catsnumber);
-        setPrevScore(foundMember.score);
+        setScore(foundMember.score);
         setRemark(foundMember.remark);
         console.log('id:',foundMember.id);
         console.log('phonenumber:',foundMember.phonenumber);
@@ -118,7 +117,7 @@ const BookingManagement = () => {
         setLineid('');
         setAddress('');
         setCatsnumber('');
-        setPrevScore('');
+        setScore('');
         setRemark('');
       }
     };
@@ -129,51 +128,22 @@ const BookingManagement = () => {
   });
 
 
-  const calculate = (fullprice,discount ,checkindate,checkoutdate,phonenumber) => {
+  const calculate = (fullprice,discount) => {
     const vat = (fullprice - discount) * 0.07;
     const price = fullprice - discount + vat
     setPriceVat(vat);
     setPrice(price);
-    const diffDays =  (checkoutdate -checkindate)/86400000 ;
+    const diffDays = checkindate - checkoutdate;
     setDays(diffDays);
-
-    const bookingID = phonenumber ;
-
-    // Set the booking ID
-    setBookingID(bookingID);
   }
-
-
   const handleEdit = () => {
     const confirmed = window.confirm("ยืนยันการจอง");
 
  
 
-    if (confirmed && bookingID) {
-      // Make HTTP request to update data
-      Axios.put(`http://localhost:${PORT}/roomcontrol/booking`, {
-        checkindate:checkindate,
-        checkoutdate:checkoutdate,
-        bookingID:bookingID,
-        roomname:roomname,
-      
-      })
-        .then((response) => {
-          // Handle successful response
-          console.log("Booking on calendar successfully:", response.data);
-          console.log("checkinDate",checkindate);
-          console.log("checkoutDate",checkoutdate);
-          console.log("BookingID",bookingID);
-    
-        })
-        .catch((error) => {
-          // Handle error
-          console.error("Error create booking:", error);
-        });
-     
-    }
     if (confirmed && phonenumber) {
-      Axios.post(`http://localhost:${PORT}/bookingcontrol`, {
+      // Make HTTP request to update data
+      Axios.post(`http://localhost:${PORT}/booking/create`, {
         checkindate:checkindate,
         checkoutdate:checkoutdate,
         fullprice:fullprice,
@@ -213,39 +183,10 @@ const BookingManagement = () => {
           console.log("name",name);
           console.log("surname",surname); 
           console.log("phonenumber",phonenumber); 
-          window.location.href = '/invoice/print';
         })
         .catch((error) => {
           // Handle error
-          console.error("Error create booking:", error);
-        });
-     
-    }
-
-    if (confirmed && phonenumber) {
-    
-      Axios.put(`http://localhost:${PORT}/member/update`, {
-      
-        id:id,
-        name:name,
-        surname:surname,
-        phonenumber:phonenumber,
-        idnumber:idnumber,
-        lineid:lineid,
-        address:address,
-        catsnumber:catsnumber,
-        remark:remark,
-        score:score,
-       
-      })
-        .then((response) => {
-          // Handle successful response
-          console.log("Member update successfully score:", response.score);
-       
-        })
-        .catch((error) => {
-          // Handle error
-          console.error("Error create booking:", error);
+          console.error("Error create member:", error);
         });
      
     }
@@ -293,32 +234,31 @@ const BookingManagement = () => {
             <p>เบอร์โทรศัพท์: {phonenumber} LINE ID: {idnumber}</p>
             <p>ที่อยู่: {address}</p>
             <p>จำนวนน้องแมว: {catsnumber}</p>
-            <p>คะแนนปัจจุบัน: {prevscore}</p>
+            <p>คะแนนปัจจุบัน: {score}</p>
 
 
 
             <h1 className="text-center mb-4">ทำการจองที่พัก</h1>
             <div className="row mb-3">
             
-        
-
-            </div>
-
-            <div className="row mb-3">
-              <div className="col">
-                CHECK IN: <DatePicker 
-                selected={checkindate } 
-                onChange={(date) => setCheckinDate(date)} 
-                className="form-control" />
-              </div>
-              <div className="col">
-                CHECK OUT: <DatePicker 
-                  selected={checkoutdate} 
-                  onChange={(date) => setCheckoutDate(date)} 
-                  minDate={checkindate}
-                  className="form-control"
-                />
-              </div>
+            <div className="mb-3">
+                  <label htmlFor="checkindate" className="form-label">Check-in Date:</label>
+                  <input type="date" 
+                  className="form-control" 
+                  id="checkindate" 
+                  value={checkindate} 
+                  onChange={(e) => setCheckinDate(e.target.value)} 
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="checkoutdate" className="form-label">Check-out Date:</label>
+                  <input type="date" 
+                  className="form-control" 
+                  id="checkoutdate" 
+                  value={checkoutdate} 
+                  onChange={(e) => setCheckoutDate(e.target.value)} 
+                  />
+                </div>
 
             </div>
 
@@ -381,8 +321,7 @@ const BookingManagement = () => {
                           onChange={(e) => {
                             const fullPriceValue = parseFloat(e.target.value);
                             setFullprice(fullPriceValue);
-                            calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
-                            
+                            setPrevScore(score);
                           }} 
                         />
                       </div>
@@ -399,13 +338,11 @@ const BookingManagement = () => {
                           onChange={(e) => {
                             const discountValue = parseFloat(e.target.value);
                             setDiscount(discountValue);
-                            calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
                             
                           }} 
                         />
                       </div>
                     </div>
-
     
 
     
@@ -420,30 +357,10 @@ const BookingManagement = () => {
                           onChange={(e) => {
                             const remarkvalue = e.target.value;
                             setRemark(remarkvalue);
-                            calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
-                        
                           }} 
                         />
                       </div>
                     </div>
-
-                    {/* <div className='row mb-3'>
-                      <div className='col text-end'><strong>คะแนนก่อน</strong></div>
-                      <div className='col'>
-                        <input 
-                          type="text" 
-                          className="form-control" 
-                          id="remark" 
-                          value={prevscore} 
-                          onChange={(e) => {
-                            const value = parseFloat(e.target.value);
-                            setPrevScore(value);
-
-                        
-                          }} 
-                        />
-                      </div>
-                    </div> */}
                     <div className='row mb-3'>
                       <div className='col text-end'><strong>คะแนนที่ได้</strong></div>
                       <div className='col'>
@@ -453,20 +370,20 @@ const BookingManagement = () => {
                           id="addscore" 
                           value={addscore} 
                           onChange={(e) => {
-                            const addscore = parseFloat(e.target.value);
-
-                            calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
+                            const addscore = e.target.value;
                             setAddScore(addscore);
-                            setScore(addscore + prevscore);
+                            calculate(fullprice,discount, checkindate ,checkoutdate);
+                            setScore(prevscore+addscore);
                           }} 
                         />
                       </div>
                     </div>
                    
-
+    
                   </div>
                 </div>
-
+                CHECK IN: {formatDate(checkindate)}
+                CHECK OUT: {formatDate(checkoutdate)}<br/>
                 ROOM NAME: {roomname}<br/>
                 Price: {fullprice}<br/>
                 Discount: {discount}<br/>
@@ -475,12 +392,11 @@ const BookingManagement = () => {
                 Remark: {remark} <br/>
                 prevScore: {prevscore} <br/>
                 addscore: {addscore} <br/>
-                score:{score}<br/>
-                days: {days}
+                score:{score}
                             
                 <div className='col-6 text-end mt-3'>
-                    <button className='btn btn-primary' onClick={() => {handleEdit(); }}>ยืนยันการจอง </button>
-                 </div>
+                  <button className='btn btn-primary' onClick={handleEdit}>ยืนยันการจอง</button>
+                </div>
               </div>
             </div>
           </div>

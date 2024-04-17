@@ -127,6 +127,15 @@ function BookingGet() {
         setRemark('');
       }
     };
+
+    const formatDate = (dateString) => {
+      if (!dateString) {
+          return ''; // Return an empty string if dateString is null or undefined
+      }
+      const date = new Date(dateString);
+      const options = { month: 'short', day: '2-digit', year: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+  };
   
     return (
         <div className="row">
@@ -147,18 +156,37 @@ function BookingGet() {
                       />
                     </div>
                     {errortext}
-                    <div>
-                     {filteredMembers.map((val, key) => (
-                      <option key={key} value={val.phonenumber}>
-                       ID:{val.id} Phone: {val.phonenumber}
-                       Name: {val.name} Surname: {val.surname}
-                       Check in: {val.checkindate} Check out: {val.checkout} 
-                       Booking Date: {val.bookingdate}
-                       Room: {val.roomname}
-                      </option>
-                     ))}
 
-                    </div>
+                    
+            
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Phone</th>
+                          <th>Name</th>
+                          <th>Surname</th>
+                          <th>Check in</th>
+                          <th>Check out</th>
+                          <th>Booking Date</th>
+                          <th>Room</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredMembers.map((val, key) => (
+                          <tr key={key}>
+                            <td>{val.id}</td>
+                            <td>{val.phonenumber}</td>
+                            <td>{val.name}</td>
+                            <td>{val.surname}</td>
+                            <td>{formatDate(val.checkindate)}</td>
+                            <td>{formatDate(val.checkoutdate)}</td>
+                            <td>{formatDate(val.bookingdate)}</td>
+                            <td>{val.roomname}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                     
                   </div>
                     

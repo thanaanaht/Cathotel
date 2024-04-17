@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
-
+let loggedUser = null;
+let massageUser = null;
 dotenv.config();
 
 const dbConfig = require('./dbConfig');

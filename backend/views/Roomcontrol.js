@@ -65,7 +65,7 @@ Roomcontrol.post('/roomcontrol/deletecolumn', (req, res) => {
             // Successfully deleted the column from the table
             res.status(200).json({
                 success: true,
-                message: `Column ${columnName} deleted successfully`
+                message: `${columnName} deleted successfully`
             });
            
         }

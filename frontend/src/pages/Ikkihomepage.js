@@ -76,7 +76,8 @@ function IkkiHomePage() {
         </div>
 
 
-
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d407.1408018975408!2d100.55416095598665!3d13.875139874646791!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e283ed178734bf%3A0xe9e9a824b18d3d5!2sPoonsri%20Loft!5e0!3m2!1sen!2sth!4v1713310217876!5m2!1sen!2sth" 
+        width="600" height="450"  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <div className="text-center mb-4">
         <iframe width="560" height="315" src="https://www.youtube.com/embed/Z9Lghe4VYk4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>

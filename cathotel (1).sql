@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 10, 2024 at 07:42 AM
+-- Generation Time: Apr 13, 2024 at 07:25 AM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -38,30 +38,31 @@ CREATE TABLE `booking` (
   `priceVat` decimal(10,2) DEFAULT NULL,
   `details` text,
   `bookingdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `days` int(11) DEFAULT NULL
+  `days` int(11) DEFAULT NULL,
+  `company` varchar(50) DEFAULT NULL,
+  `companyaddress` varchar(200) DEFAULT NULL,
+  `roomname` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`id`, `username`, `checkindate`, `checkoutdate`, `fullprice`, `discount`, `price`, `priceVat`, `details`, `bookingdate`, `days`) VALUES
-(1, 'admin', '2024-04-01', '2024-04-08', '800.00', '100.00', '700.00', NULL, NULL, '2024-04-07 14:52:10', NULL),
-(2, 'admin', '2024-04-07', '2024-04-14', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 14:58:44', NULL),
-(3, 'admin', '2024-04-07', '2024-04-14', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 14:58:48', NULL),
-(4, 'No login', '2024-04-07', '2024-04-08', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 15:47:22', NULL),
-(5, 'No login', '2024-04-12', '2024-04-13', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 15:53:39', NULL),
-(6, 'No login', '2024-04-12', '2024-04-13', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 15:53:41', NULL),
-(7, 'No login', '2024-04-12', '2024-04-13', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 15:54:23', NULL),
-(8, 'No login', '2024-04-13', '2024-04-14', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 16:04:38', NULL),
-(9, '', NULL, NULL, '0.00', '0.00', NULL, '0.00', NULL, '2024-04-07 16:28:00', NULL),
-(10, '', NULL, NULL, '0.00', '0.00', NULL, '0.00', NULL, '2024-04-07 16:31:49', NULL),
-(11, '', NULL, NULL, '0.00', '0.00', NULL, '0.00', NULL, '2024-04-07 16:34:17', NULL),
-(12, '', NULL, NULL, '0.00', '0.00', NULL, '0.00', NULL, '2024-04-07 16:34:19', NULL),
-(13, '', NULL, NULL, '0.00', '0.00', NULL, '0.00', NULL, '2024-04-08 00:01:00', NULL),
-(14, '', NULL, NULL, '0.00', '0.00', NULL, '0.00', NULL, '2024-04-08 00:02:18', NULL),
-(15, '', '2024-04-11', '2024-04-21', '0.00', '0.00', NULL, '0.00', NULL, '2024-04-08 09:20:11', NULL),
-(16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-08 15:37:58', NULL);
+INSERT INTO `booking` (`id`, `username`, `checkindate`, `checkoutdate`, `fullprice`, `discount`, `price`, `priceVat`, `details`, `bookingdate`, `days`, `company`, `companyaddress`, `roomname`) VALUES
+(1, 'admin', '2024-04-01', '2024-04-08', '800.00', '100.00', '700.00', NULL, NULL, '2024-04-07 14:52:10', NULL, NULL, NULL, NULL),
+(2, 'admin', '2024-04-07', '2024-04-14', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 14:58:44', NULL, NULL, NULL, NULL),
+(3, 'admin', '2024-04-07', '2024-04-14', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 14:58:48', NULL, NULL, NULL, NULL),
+(4, 'No login', '2024-04-07', '2024-04-08', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 15:47:22', NULL, NULL, NULL, NULL),
+(5, 'No login', '2024-04-12', '2024-04-13', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 15:53:39', NULL, NULL, NULL, NULL),
+(6, 'No login', '2024-04-12', '2024-04-13', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 15:53:41', NULL, NULL, NULL, NULL),
+(7, 'No login', '2024-04-12', '2024-04-13', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 15:54:23', NULL, NULL, NULL, NULL),
+(8, 'No login', '2024-04-13', '2024-04-14', '0.00', '0.00', NULL, '0.00', '', '2024-04-07 16:04:38', NULL, NULL, NULL, NULL),
+(9, '', NULL, NULL, '0.00', '0.00', NULL, '0.00', NULL, '2024-04-07 16:28:00', NULL, NULL, NULL, NULL),
+(10, '', NULL, NULL, '0.00', '0.00', NULL, '0.00', NULL, '2024-04-07 16:31:49', NULL, NULL, NULL, NULL),
+(11, '', '2024-04-12', '2024-04-19', '9000.00', '0.00', '9000.00', '0.00', NULL, '2024-04-07 16:34:17', NULL, NULL, NULL, 'room04'),
+(12, '', '2024-05-18', '2024-05-24', '8000.00', '1000.00', '7000.00', '0.00', NULL, '2024-04-07 16:34:19', NULL, NULL, NULL, NULL),
+(13, '', NULL, NULL, '0.00', '0.00', NULL, '0.00', NULL, '2024-04-08 00:01:00', NULL, NULL, NULL, NULL),
+(14, NULL, '2024-04-14', '2024-04-15', '1000.00', '50.00', '1050.00', '0.00', NULL, '2024-04-13 02:06:00', 1, 'Ikki Cat Hotel', '17/243 Pracha Chuen 14 Alley, Lane 14, Thung Song Hong, Lak Si, Bangkok 10210', 'room01');
 
 -- --------------------------------------------------------
 
@@ -4421,7 +4422,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `member`
