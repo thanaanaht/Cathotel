@@ -5,22 +5,34 @@ import { useNavigate } from 'react-router-dom';
 function CheckLogin() {
   const PORT = 3300;
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [token, setToken] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('No login');
 
   useEffect(() => {
-    Axios.get(`http://localhost:${PORT}/login`)
+    Axios.get(`http://localhost:${PORT}/login/admin`)
       .then(response => {
         console.log(response.data);
-        setUsername(response.data.username);
+        if (response.data.token) {
+          setUsername(response.data.username)
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+          navigate('/login');
+        }
       })
       .catch(error => {
         console.error('Error fetching login data', error);
-        navigate('/login'); // Redirect to login page if not logged in
+        setIsLoggedIn(false);
+        navigate('/login');
       });
   }, [navigate]);
 
-  return username;
+  // Render different UI based on login status
+  if (isLoggedIn) {
+    return <div>{username}</div>; // Or any other loading indicator
+  } else {
+    return null; // Or you can render a login form here
+  }
 }
 
 export default CheckLogin;

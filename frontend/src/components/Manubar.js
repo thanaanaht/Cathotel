@@ -2,14 +2,14 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Button, Stack } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import CheckLogin from './checklogin'
+import CheckLogin from './checklogin'
 
 function Manubar() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '0px', width: '100%' }}>
-      {/* <div style={{ backgroundColor: 'black', color: 'white', width: '100%',textAlign:'center',padding:'10px'}}>
+      <div style={{ backgroundColor: 'black', color: 'white', width: '100%',textAlign:'center',padding:'10px'}}>
         <CheckLogin />
-      </div> */}
+      </div>
 
 
       <Stack direction="horizontal" gap={3} style={{ backgroundColor: 'black', flexDirection: 'column', display: 'flex',marginBottom: '200px',padding:'100px',width: '200px' }}>

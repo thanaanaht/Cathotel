@@ -59,9 +59,9 @@ const ShowCalendar = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Date</th>
+                  <th style={{ width: `${100 / (columnNames.length + 1)}%` }}>Date</th>
                   {columnNames.map((columnName, index) => (
-                    <th key={index}>{columnName}</th>
+                    <th key={index} style={{ width: `${100 / (columnNames.length + 1)}%` }}>{columnName}</th>
                   ))}
                 </tr>
               </thead>
@@ -70,15 +70,16 @@ const ShowCalendar = () => {
                   const formattedDate = formatDate(entry.date);
                   return (
                     <tr key={index}>
-                      <td>{formattedDate}</td>
+                      <td style={{ width: `${100 / (columnNames.length + 1)}%` }}>{formattedDate}</td>
                       {columnNames.map((columnName, index) => (
-                        <td key={index}>{entry[columnName]}</td>
+                        <td key={index} style={{ width: `${100 / (columnNames.length + 1)}%` }}>{entry[columnName]}</td>
                       ))}
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+
         </div>
     );
 };

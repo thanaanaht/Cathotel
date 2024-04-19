@@ -1,30 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Manubar from '../components/Manubar';
-import { Axios } from 'axios';
-import ShowCalendar from '../components/showcalendar';
+import ShowCalendar from '../components/showcalendar'; // Import your ShowCalendar component here
 
-const PORT = 3300;
-
-
- 
-
-function Dashboard() {
-  const [datalist ,setDatalist] = useState([]);
-  
-
-
+const YourComponent = () => {
   return (
     <div className="row">
-    <div className="col-6 col-md-2" style={{ backgroundColor: 'black' }}>
-      <Manubar/>
-    </div>
-    <div className="col" style={{ backgroundColor: 'white' }}>
-     
-       <ShowCalendar/>
-
-    </div>
+      <div className="col-6 col-md-2" style={{ backgroundColor: 'black' }}>
+        <Manubar />
+      </div>
+      <div className="col" style={{ backgroundColor: 'white' }}>
+        <div style={{ width: '100px' }}> {/* Adjust the width as per your requirement */}
+          <ShowCalendar />
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Dashboard;
+export default YourComponent;

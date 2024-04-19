@@ -6,6 +6,7 @@ import Manubar from '../components/Manubar'
 const InvoiceDelete = () => {
   const contentToPrint = useRef(null);
   const [id, setId] = useState('');
+  const [bookingID, setBookingID] = useState('');
   const [username, setUsername] = useState('no login');
   const [checkindate, setCheckindate] = useState('');
   const [checkoutdate, setCheckoutdate] = useState('');
@@ -37,7 +38,26 @@ const InvoiceDelete = () => {
   }, [PORT]);
 
   const handleSelectChange = (event) => {
-    setId(event.target.value);
+    const selectedId = event.target.value;
+    setId(selectedId);
+
+    const selectedBooking = bookinglist.find(booking => booking.id === parseInt(selectedId));
+
+    if (selectedBooking) {
+      setRoomName(selectedBooking.roomname);
+      setBookingID(selectedBooking.bookingID)
+      setUsername(selectedBooking.username);
+      setCheckindate(selectedBooking.checkindate);
+      setCheckoutdate(selectedBooking.checkoutdate);
+      setFullprice(selectedBooking.fullprice);
+      setDiscount(selectedBooking.discount);
+      setDays(selectedBooking.days);
+      setPriceVat(selectedBooking.priceVat);
+      setDetails(selectedBooking.details);
+      setCompany(selectedBooking.company);
+      setCompanyAddress(selectedBooking.companyaddress);
+      setPrice(selectedBooking.price);
+    }
   };
 
 
@@ -84,7 +104,7 @@ const InvoiceDelete = () => {
           <h2 className='text-center mb-4'>ใบเสร็จรับเงิน/ใบกำกับภาษี</h2>
           <div className='row mb-3'>
             <div className='col-6'>
-              <div>เลขที่ CT2567{id}</div>
+              <div>เลขที่ : {bookingID}</div>
               <div>{company}</div>
               <div>{companyaddress}</div>
             </div>

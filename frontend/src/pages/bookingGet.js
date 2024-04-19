@@ -32,11 +32,15 @@ function BookingGet() {
     const [catsnumber, setCatsnumber] = useState(0);
     const [score, setScore] = useState(0);
     const [searchPhoneNumber, setSearchPhoneNumber] = useState('');
+    const [searchBookingID, setSearchBookingID] = useState('');
     const [errortext,setErrorText] = useState('');
     const [addscore, setAddscore] = useState(0);
     const [prevscore,setPrevScore] = useState(0);
     const [details, setDetails] = useState('');
     const [days,setDays] = useState(0);
+    const [errortextid, setErrorTextID] = useState('');
+    const [status, setStatus] = useState('');
+    
 
     const [company, setCompany] = useState('');
     const [companyaddress, setCompanyAddress] = useState('');
@@ -56,52 +60,29 @@ function BookingGet() {
           });
       }, [PORT]);
 
-    //   const handleSelectChange = (event) => {
-    //     const selectedId = event.target.value;
-    //     setId(selectedId);
-    
-    //     // Find the selected booking from the booking list
-    //     const selectedBooking = bookinglist.find(booking => booking.id === parseInt(selectedId));
-     
-    
-    //     if (selectedBooking) {
-    //       setCheckindate(selectedBooking.checkindate);
-    //       setCheckoutdate(selectedBooking.checkoutdate);
-    //       setFullprice(selectedBooking.fullprice);
-    //       setDiscount(selectedBooking.discount);
-    //       setPriceVat(selectedBooking.priceVat);
-    //       setPhoneNumber(selectedBooking.phonenumber);
-    //       setPrice(selectedBooking.price);
-    //       setDays(selectedBooking.days)
-    //       setCompany(selectedBooking.company);
-    //       setCompanyAddress(selectedBooking.companyaddress);
-    //       setRoomName(selectedBooking.roomname);
-    //       setScore(selectedBooking.score);
-    //       setAddscore(selectedBooking.addscore);
-    //       setRemark(selectedBooking.addscore);
-    //       setName(selectedBooking.name)
-    //       setSurName(selectedBooking.surname)
-    //       setRemark(selectedBooking.remark)
-    
-     
-          
-    //     }
-    //   };
 
     const filteredMembers = bookinglist.filter(booking => {
       // Check if booking and booking.phonenumber are not null before using includes()
       return booking && booking.phonenumber && booking.phonenumber.includes(searchPhoneNumber);
   });
+
+  const filteredBookingid = bookinglist.filter(booking => {
+    // Check if booking and booking.phonenumber are not null before using includes()
+    return booking && booking.bookingID && booking.bookingID.includes(searchBookingID);
+});
   
 
-    const handleSearchChange = (event) => {
+    const handleSearchPhonenumberChange = (event) => {
       setSearchPhoneNumber(event.target.value);
+      setSearchBookingID('');
+
     
       // Find the member from the filtered list based on the search phone number
       const foundMember = filteredMembers.find(member => member.phonenumber === event.target.value);
       if (foundMember) {
         setErrorText('')
         setId(foundMember.id);
+        setBookingID(foundMember.bookingID);
         setName(foundMember.name);
         setSurName(foundMember.surname);
         setPhoneNumber(foundMember.phonenumber);
@@ -111,11 +92,12 @@ function BookingGet() {
         setCatsnumber(foundMember.catsnumber);
         setScore(foundMember.score);
         setRemark(foundMember.remark);
-        console.log('id:',foundMember.id);
-        console.log('phonenumber:',foundMember.phonenumber);
+        setStatus(foundMember.status);
+        setSearchBookingID('')
       } else {
         setErrorText('member not found');
         setId('');
+        setBookingID('');
         setName('');
         setSurName('');
         setPhoneNumber('');
@@ -125,6 +107,46 @@ function BookingGet() {
         setCatsnumber('');
         setScore('');
         setRemark('');
+        setStatus('');
+        
+      }
+    };
+
+    const handleSearchbookingIDChange = (event) => {
+      setSearchBookingID(event.target.value);
+      setSearchPhoneNumber('');
+      // Find the member from the filtered list based on the search phone number
+      const foundMember = filteredBookingid.find(member => member.bookingID === event.target.value);
+  
+      if (foundMember) {
+        setErrorTextID('');
+        setId(foundMember.id);
+        setBookingID(foundMember.bookingID);
+        setName(foundMember.name);
+        setSurName(foundMember.surname);
+        setPhoneNumber(foundMember.phonenumber);
+        setIdNumber(foundMember.idnumber);
+        setLineid(foundMember.lineid);
+        setAddress(foundMember.address);
+        setCatsnumber(foundMember.catsnumber);
+        setScore(foundMember.score);
+        setRemark(foundMember.remark);
+        setStatus(foundMember.status);
+        
+      } else {
+        setErrorTextID('booking not found');
+        setId('');
+        setBookingID('');
+        setName('');
+        setSurName('');
+        setPhoneNumber('');
+        setIdNumber('');
+        setLineid('');
+        setAddress('');
+        setCatsnumber('');
+        setScore('');
+        setRemark('');
+        setStatus('');
       }
     };
 
@@ -145,6 +167,18 @@ function BookingGet() {
             <div className="col" style={{ backgroundColor: 'white' }}>
               <br/>
               <div className='row mb-3'>
+              <div className='col text-end'><strong>ค้นหาด้วย BOOKING ID</strong></div>
+                    <div className='col'>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="searchBookingID"
+                        value={searchBookingID}
+                        onChange={handleSearchbookingIDChange}
+                      />
+                    </div>
+                    {errortextid}
+
                     <div className='col text-end'><strong>ค้นหาด้วยเบอร์โทร</strong></div>
                     <div className='col'>
                       <input
@@ -152,10 +186,13 @@ function BookingGet() {
                         className="form-control"
                         id="searchphonenumber"
                         value={searchPhoneNumber}
-                        onChange={handleSearchChange}
+                        onChange={handleSearchPhonenumberChange}
                       />
                     </div>
                     {errortext}
+
+
+                    
 
                     
             
@@ -163,6 +200,7 @@ function BookingGet() {
                       <thead>
                         <tr>
                           <th>ID</th>
+                          <th>Booking ID</th>
                           <th>Phone</th>
                           <th>Name</th>
                           <th>Surname</th>
@@ -173,9 +211,10 @@ function BookingGet() {
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredMembers.map((val, key) => (
+                        {filteredBookingid.map((val, key) => (
                           <tr key={key}>
                             <td>{val.id}</td>
+                            <td>{val.bookingID}</td>
                             <td>{val.phonenumber}</td>
                             <td>{val.name}</td>
                             <td>{val.surname}</td>
@@ -185,6 +224,22 @@ function BookingGet() {
                             <td>{val.roomname}</td>
                           </tr>
                         ))}
+
+                        {filteredMembers.map((val, key) => (
+                          <tr key={key}>
+                            <td>{val.id}</td>
+                            <td>{val.bookingID}</td>
+                            <td>{val.phonenumber}</td>
+                            <td>{val.name}</td>
+                            <td>{val.surname}</td>
+                            <td>{formatDate(val.checkindate)}</td>
+                            <td>{formatDate(val.checkoutdate)}</td>
+                            <td>{formatDate(val.bookingdate)}</td>
+                            <td>{val.roomname}</td>
+                          </tr>
+                        ))}
+
+
                       </tbody>
                     </table>
                     

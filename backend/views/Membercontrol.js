@@ -122,6 +122,8 @@ Membercontrol.put('/member/update', (req, res) => {
     const address = req.body.address;
     const catsnumber = req.body.catsnumber;
     const score = req.body.score;
+    const prevscore = req.body.prevscore;
+    const addscore = req.body.addscore;
     const remark = req.body.remark;
 
     console.log("name", name);
@@ -130,25 +132,28 @@ Membercontrol.put('/member/update', (req, res) => {
     console.log("idnumber", idnumber);
     
     // Execute the query with the provided parameters
-    db.query(`UPDATE member SET name = ?,surname = ?, phonenumber = ?,idnumber = ?,  lineid = ?,address = ?,catsnumber = ?,score  = ?, remark = ? WHERE id = ?`, 
-    [name, surname, phonenumber, idnumber, lineid, address, catsnumber, score, remark , id], (err, result) => {
-        if (err) {
-            console.error("Error updating member:", err);
-            res.status(500).json({ error: "An error occurred while updating member" });
-        } else if (result.affectedRows === 0) {
-            console.error("No member was updated");
-            res.status(404).json({ error: "No member found with the provided ID" });
-        } else {
-            console.log("Member updated successfully");
-            res.status(200).json({ message: "Member updated successfully" });
+    db.query(
+        `UPDATE member SET name = ?, surname = ?, phonenumber = ?, idnumber = ?, lineid = ?, address = ?, catsnumber = ?, score = ?, prevscore = ?, addscore = ?, remark = ? WHERE id = ?`,
+        [name, surname, phonenumber, idnumber, lineid, address, catsnumber, score, prevscore, addscore, remark, id],
+        (err, result) => {
+            if (err) {
+                console.error("Error updating member:", err);
+                res.status(500).json({ error: "An error occurred while updating member" });
+            } else if (result.affectedRows === 0) {
+                console.error("No member was updated");
+                res.status(404).json({ error: "No member found with the provided ID" });
+            } else {
+                console.log("Member updated successfully");
+                res.status(200).json({ message: "Member updated successfully" });
+            }
         }
-    });
+    );
 });
 
 Membercontrol.delete('/member/delete', (req, res) => {
     const memberId = req.body.id;
   
-    // Check if memberId is provided
+    console.log("Delete member ID: ",memberId)
     if (!memberId) {
       return res.status(400).json({ error: 'Member ID is required' });
     }

@@ -8,12 +8,13 @@ import Manubar from "../components/Manubar";
 
 const PORT = 3300;
 
-const BookingEdit = () => {
+const BookingManagement = () => {
 
     const [calendarData, setCalendarData] = useState([]);
     const [checkindate, setCheckinDate] = useState('');
     const [checkoutdate, setCheckoutDate] = useState('');
     const [columnNames, setColumnNames] = useState([]);
+    const [bookinglist, setBookinglist] = useState([]);
     const [id, setId] = useState('');
     const [bookingID, setBookingID] = useState('');
     const [roomname, setRoomname]= useState('');
@@ -37,7 +38,10 @@ const BookingEdit = () => {
     const [searchPhoneNumber, setSearchPhoneNumber] = useState('');
     const [errortext,setErrorText] = useState('');
     const [details, setDetails] = useState('');
+    const [status, setStatus] = useState('Booking');
     const [days,setDays] = useState(0);
+    const [searchBookingID, setSearchBookingID] = useState('');
+    const [errortextid, setErrorTextID] = useState('')
     const company = 'Ikki Cat Hotel';
     const companyaddress = '17/243 Pracha Chuen 14 Alley, Lane 14, Thung Song Hong, Lak Si, Bangkok 10210';
 
@@ -87,16 +91,22 @@ const BookingEdit = () => {
         const currentDate = new Date(entry.date);
         return currentDate >= checkindate && currentDate <= checkoutdate;
     });
-
-
-    const handleSearchChange = (event) => {
-      setSearchPhoneNumber(event.target.value);
+    const filteredBookingid = bookinglist.filter(booking => {
+      // Check if booking and booking.phonenumber are not null before using includes()
+      return booking && booking.bookingID && booking.bookingID.includes(searchBookingID);
+  });
     
+
+    const handleSearchbookingIDChange = (event) => {
+      setSearchBookingID(event.target.value);
+      setSearchPhoneNumber('');
       // Find the member from the filtered list based on the search phone number
-      const foundMember = filteredMembers.find(member => member.phonenumber === event.target.value);
+      const foundMember = filteredBookingid.find(member => member.bookingID === event.target.value);
+  
       if (foundMember) {
-        setErrorText('')
+        setErrorTextID('');
         setId(foundMember.id);
+        setBookingID(foundMember.bookingID);
         setName(foundMember.name);
         setSurName(foundMember.surname);
         setPhoneNumber(foundMember.phonenumber);
@@ -104,13 +114,14 @@ const BookingEdit = () => {
         setLineid(foundMember.lineid);
         setAddress(foundMember.address);
         setCatsnumber(foundMember.catsnumber);
-        setPrevScore(foundMember.score);
+        setScore(foundMember.score);
         setRemark(foundMember.remark);
-        console.log('id:',foundMember.id);
-        console.log('phonenumber:',foundMember.phonenumber);
+        setStatus(foundMember.status);
+        
       } else {
-        setErrorText('member not found');
+        setErrorTextID('booking not found');
         setId('');
+        setBookingID('');
         setName('');
         setSurName('');
         setPhoneNumber('');
@@ -118,8 +129,9 @@ const BookingEdit = () => {
         setLineid('');
         setAddress('');
         setCatsnumber('');
-        setPrevScore('');
+        setScore('');
         setRemark('');
+        setStatus('');
       }
     };
 
@@ -137,9 +149,11 @@ const BookingEdit = () => {
     const diffDays =  (checkoutdate -checkindate)/86400000 ;
     setDays(diffDays);
 
-    const bookingID = phonenumber ;
-
-    // Set the booking ID
+    const currentDate = new Date();
+    const ddmmyy = `${currentDate.getDate()}${currentDate.getMonth() + 1}${currentDate.getFullYear() % 100}`;
+    const timerecode = `${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}`;
+    
+    const bookingID = `${phonenumber}${ddmmyy}${timerecode}`;
     setBookingID(bookingID);
   }
 
@@ -172,10 +186,12 @@ const BookingEdit = () => {
         });
      
     }
+
     if (confirmed && phonenumber) {
-      Axios.post(`http://localhost:${PORT}/bookingcontrol`, {
+      Axios.post(`http://localhost:${PORT}/booking/create`, {
         checkindate:checkindate,
         checkoutdate:checkoutdate,
+        bookingID:bookingID,
         fullprice:fullprice,
         discount:discount,
         price:price,
@@ -192,12 +208,14 @@ const BookingEdit = () => {
         name:name,
         surname:surname,
         phonenumber:phonenumber,
+        status:status,
       })
         .then((response) => {
           // Handle successful response
           console.log("Member create successfully:", response.data);
           console.log("checkinDate",checkindate);
           console.log("checkoutDate",checkoutdate);
+          console.log("bookingID",bookingID);
           console.log("fullprice",fullprice);
           console.log("discount",discount);
           console.log("price ", price);
@@ -207,49 +225,51 @@ const BookingEdit = () => {
           console.log("company ", company);
           console.log("companyaddress",companyaddress);
           console.log("roomname",roomname);
+          console.log("prevscore",prevscore);
           console.log("addscore",addscore);
           console.log("score ", score);
           console.log("remark",remark);
           console.log("name",name);
           console.log("surname",surname); 
           console.log("phonenumber",phonenumber); 
-          window.location.href = '/invoice/print';
+          console.log("status",status); 
+          
         })
         .catch((error) => {
           // Handle error
           console.error("Error create booking:", error);
         });
-     
-    }
-
-    if (confirmed && phonenumber) {
-    
-      Axios.put(`http://localhost:${PORT}/member/update`, {
+        Axios.put(`http://localhost:${PORT}/member/update`, {
       
         id:id,
-        name:name,
+        name:name, 
         surname:surname,
         phonenumber:phonenumber,
         idnumber:idnumber,
         lineid:lineid,
         address:address,
         catsnumber:catsnumber,
-        remark:remark,
         score:score,
-       
+        prevscore:prevscore,
+        addscore:addscore,
+        remark:remark,
+
+
       })
         .then((response) => {
           // Handle successful response
-          console.log("Member update successfully score:", response.score);
+          console.log("Member update successfully:",response.data);
        
         })
         .catch((error) => {
           // Handle error
           console.error("Error create booking:", error);
         });
-     
-    }
+        window.location.href = '/invoice/print';
+      }
+
   };
+
 
   const filterData = () => {
     // Check if check-in and check-out dates are selected
@@ -266,6 +286,18 @@ const BookingEdit = () => {
 
   const filteredData = filterData();
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5; // Number of columns to display per page
+
+  const totalPages = Math.ceil(columnNames.length / itemsPerPage);
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
     return (
       <div className="row">
         <div className="col-6 col-md-2" style={{ backgroundColor: 'black' }}>
@@ -274,13 +306,13 @@ const BookingEdit = () => {
         
         <div className="col" style={{ backgroundColor: 'white' }}>
           <div className="container mt-5"> 
-          <p>ค้นหาสมาชิคด้วยเบอร์โทร</p>
+          <p>ค้นหาหมายเลขการจอง</p>
           <input
             type="text"
             className="form-control"
             id="searchphonenumber"
             value={searchPhoneNumber}
-            onChange={handleSearchChange}
+            onChange={handleSearchbookingIDChange}
           />
           {errortext}
            {filteredMembers.map((val, key) => (
@@ -322,32 +354,42 @@ const BookingEdit = () => {
 
             </div>
 
-            <div>Check in date: {formatDate(checkindate)}</div>
-            <div>Check out date: {formatDate(checkoutdate)}</div>
 
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  {columnNames.map((columnName, index) => (
-                    <th key={index}>{columnName}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredDataInRange.map((entry, index) => {
-                  const formattedDate = formatDate(entry.date);
-                  return (
-                    <tr key={index}>
-                      <td>{formattedDate}</td>
-                      {columnNames.map((columnName, index) => (
-                        <td key={index}>{entry[columnName]}</td>
+
+            <div className="tab-bar">
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handlePageChange(index)}
+                    className={index === currentPage ? 'active' : ''}
+                  >
+                    Page {index + 1}
+                  </button>
+                ))}
+              </div>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      {columnNames.slice(startIndex, endIndex).map((columnName, index) => (
+                        <th key={index}>{columnName}</th>
                       ))}
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {filteredDataInRange.map((entry, index) => {
+                      const formattedDate = formatDate(entry.date);
+                      return (
+                        <tr key={index}>
+                          <td>{formattedDate}</td>
+                          {columnNames.slice(startIndex, endIndex).map((columnName, index) => (
+                            <td key={index}>{entry[columnName]}</td>
+                          ))}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
         
             <div className="container mt-5">
               <div className='member-details border p-4'>
@@ -356,17 +398,20 @@ const BookingEdit = () => {
                   <div className='col-6'>
                     <div className='col'>
                       
-                      <select 
-                        className="form-select" 
-                        id="columnNames" 
-                        value={roomname} 
-                        onChange={(e) => setRoomname(e.target.value)}
-                      >
-                        <option value="columnName">Select a room</option>
-                        {columnNames.map((columnName, index) => (
-                          <option key={index} value={columnName}>{columnName}</option>
-                        ))}
-                      </select>
+                    <div className='col'>
+                          <select 
+                            className="form-select" 
+                            id="columnNames" 
+                            value={roomname} 
+                            onChange={(e) => setRoomname(e.target.value)}
+                          >
+                            <option value="columnName">Select a room</option>
+                            {columnNames.map((columnName, index) => (
+                              <option key={index} value={columnName}>{columnName}</option>
+                            ))}
+                          </select>
+                        </div>
+
                     </div>
                     
     
@@ -382,6 +427,7 @@ const BookingEdit = () => {
                             const fullPriceValue = parseFloat(e.target.value);
                             setFullprice(fullPriceValue);
                             calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
+                            setScore(addscore + prevscore);
                             
                           }} 
                         />
@@ -400,7 +446,7 @@ const BookingEdit = () => {
                             const discountValue = parseFloat(e.target.value);
                             setDiscount(discountValue);
                             calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
-                            
+                            setScore(addscore + prevscore);
                           }} 
                         />
                       </div>
@@ -421,7 +467,7 @@ const BookingEdit = () => {
                             const remarkvalue = e.target.value;
                             setRemark(remarkvalue);
                             calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
-                        
+                            setScore(addscore + prevscore);
                           }} 
                         />
                       </div>
@@ -458,15 +504,40 @@ const BookingEdit = () => {
                             calculate(fullprice, discount, checkindate, checkoutdate, phonenumber)
                             setAddScore(addscore);
                             setScore(addscore + prevscore);
+                            
                           }} 
                         />
+                      </div>
+                    </div>
+                    <div className='row mb-3'>
+                      <div className='col text-end'><strong>สถานนะ</strong></div>
+                      <div className='col'>
+                      <select
+                              type="number" 
+                              className="form-control" 
+                              id="addscore" 
+                              value={status} 
+                              onChange={(e) => {
+                                const status = e.target.value;
+                                setStatus(status)
+                              }} 
+                            >
+                        <option value="จอง 50%">จอง 0%</option>
+                        <option value="จอง 50%">จอง 50%</option>
+                        <option value="จอง Fullpayment">จอง 100%</option>
+                        <option value="Check-in">Check-in</option>
+                        <option value="Check-out">Check-out</option>
+                      </select>
+
                       </div>
                     </div>
                    
 
                   </div>
                 </div>
-
+               
+                <div>Check in date: {formatDate(checkindate)}</div>
+                <div>Check out date: {formatDate(checkoutdate)}</div>
                 ROOM NAME: {roomname}<br/>
                 Price: {fullprice}<br/>
                 Discount: {discount}<br/>
@@ -476,7 +547,8 @@ const BookingEdit = () => {
                 prevScore: {prevscore} <br/>
                 addscore: {addscore} <br/>
                 score:{score}<br/>
-                days: {days}
+                days: {days}<br/>
+                Status: {status}
                             
                 <div className='col-6 text-end mt-3'>
                     <button className='btn btn-primary' onClick={() => {handleEdit(); }}>ยืนยันการจอง </button>
@@ -488,4 +560,4 @@ const BookingEdit = () => {
       </div>
     );
   }
-  export default BookingEdit;   
+  export default BookingManagement   

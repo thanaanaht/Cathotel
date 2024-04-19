@@ -17,12 +17,14 @@ const InvoicePrint = () => {
   const [price, setPrice] = useState(0);
   const [days, setDays] = useState(0);
   const [score, setScore] = useState(0);
+  const [prevscore, setPrevScore] = useState(0);
   const [addscore, setAddscore] = useState(0);
   const [remark, setRemark] = useState('');
   const [phonenumber, setPhoneNumber] = useState('');
   const [bookinglist, setBookinglist] = useState([]);
   const [roomname, setRoomName] = useState('');
   const [company, setCompany] = useState('');
+  const [bookingID, setBookingID] = useState('');
   const [companyaddress, setCompanyAddress] = useState('');
 
 
@@ -62,13 +64,15 @@ const InvoicePrint = () => {
       setCompany(selectedBooking.company);
       setCompanyAddress(selectedBooking.companyaddress);
       setRoomName(selectedBooking.roomname);
+      setPrevScore(selectedBooking.prevscore);
       setScore(selectedBooking.score);
       setAddscore(selectedBooking.addscore);
-      setRemark(selectedBooking.addscore);
       setName(selectedBooking.name)
       setSurname(selectedBooking.surname)
       setRemark(selectedBooking.remark)
-
+      setBookingID(selectedBooking.bookingID)
+      console.log("score:",score)
+      console.log("prevscore:",prevscore)
  
       
     }
@@ -110,7 +114,7 @@ const InvoicePrint = () => {
               <div>{companyaddress}</div>
             </div>
           <div>
-            {name}   {surname}   {phonenumber}
+            ชื่อ: {name}   นามสกุล: {surname}   เบอร์โทรศัพท์: {phonenumber}
           </div>
           </div>
           <table className="table table-bordered">
@@ -159,8 +163,10 @@ const InvoicePrint = () => {
               <div className='col text-start'>{price} บาท</div>
             </div>
           </div>
-           <div >คะแนนรวม {score}</div>
-           <div >คะแนนที่ได้รับ {addscore}</div>
+            <div >BOOKING ID: {bookingID}</div>
+           <div >คะแนนรวม: {score}</div>
+           <div >คะแนนก่อนหน้า: {prevscore}</div>
+           <div >คะแนนที่ได้รับ: {addscore}</div>
            <div>หมายเหตุ: {remark}</div>
           <hr/>
         </div>

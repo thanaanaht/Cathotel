@@ -111,6 +111,7 @@ function BookCancel() {
   const cancelBooking = () => {
     const confirmed = window.confirm("ยืนยันการยกเลิกการจอง");
     if (confirmed && deleteid) { // Check if id is present
+
       Axios.delete(`http://localhost:${PORT}/bookingcontrol/deletebooking/${deleteid}`)
         .then(response => {
           console.log('Invoice deleted successfully:', response.data);
@@ -124,8 +125,34 @@ function BookCancel() {
           console.error('Error deleting invoice:', error);
           alert("เกิดข้อผิดพลาดในการยกเลิกการจอง");
         });
+        //update table
+        Axios.put(`http://localhost:${PORT}/roomcontrol/booking/cancel`, {
+          checkindate:checkindate,
+          checkoutdate:checkoutdate,
+          bookingID:bookingID,
+          roomname:roomname,
+        
+        })
+          .then((response) => {
+            // Handle successful response
+            console.log("Booking on calendar successfully:", response.data);
+            console.log("checkinDate",checkindate);
+            console.log("checkoutDate",checkoutdate);
+            console.log("BookingID",bookingID);
+      
+          })
+          .catch((error) => {
+            // Handle error
+            console.error("Error create booking:", error);
+          });
     }
   };
+
+
+    // Make HTTP request to update data
+
+   
+  
   
     return (
         <div className="row">

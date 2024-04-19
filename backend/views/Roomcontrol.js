@@ -169,6 +169,36 @@ Roomcontrol.put('/roomcontrol/booking', (req, res) => {
     });
 });
 
+Roomcontrol.put('/roomcontrol/booking/cancel', (req, res) => {
+    const { checkindate, checkoutdate, bookingID, roomname } = req.body;
+
+
+    
+
+    const formattedCheckinDate = formatDate(checkindate);
+    const formattedCheckoutDate = formatDate(checkoutdate);
+
+    console.log(formattedCheckinDate);
+    console.log(formattedCheckinDate);
+    console.log(bookingID);
+    console.log(roomname);
+    // Assuming you want to update the room identified by the provided room ID
+    const query = `UPDATE rooms 
+                   SET ${roomname} = null
+                   WHERE \`date\` BETWEEN '${formattedCheckinDate}' AND '${formattedCheckoutDate}'`;
+
+    db.query(query, (error, results, fields) => {
+        if (error) {
+            console.error('Error updating rooms:', error);
+            res.status(500).json({ success: false, message: 'Failed to update rooms' });
+        } else {
+            console.log('Rooms updated successfully');
+            res.status(200).json({ success: true, message: 'Rooms updated successfully', data: results });
+        }
+    });
+});
+
+
 
 
 // Roomcontrol.get('/availability', async (req, res) => {

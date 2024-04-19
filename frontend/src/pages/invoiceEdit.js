@@ -6,6 +6,7 @@ const InvoiceEdit = () => {
   const contentToPrint = useRef(null);
   const [id, setId] = useState('');
   const [username, setUsername] = useState('no login');
+  const [bookingID, setBookingID] = useState('');
   const [checkindate, setCheckindate] = useState('');
   const [checkoutdate, setCheckoutdate] = useState('');
   const [fullprice, setFullprice] = useState(0);
@@ -58,6 +59,7 @@ const InvoiceEdit = () => {
 
     if (selectedBooking) {
       setRoomName(selectedBooking.roomname);
+      setBookingID(selectedBooking.bookingID)
       setUsername(selectedBooking.username);
       setCheckindate(selectedBooking.checkindate);
       setCheckoutdate(selectedBooking.checkoutdate);
@@ -122,7 +124,7 @@ const InvoiceEdit = () => {
             <h2 className='text-center mb-4'>ใบเสร็จรับเงิน/ใบกำกับภาษี</h2>
             <div className='row mb-3'>
               <div className='col-6'>
-                <div>เลขที่ {id}</div>
+                <div>เลขที่ : {bookingID}</div>
                 <div>{company}</div>
                 <div>{companyaddress}</div>
               </div>

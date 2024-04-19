@@ -15,46 +15,9 @@ dotenv.config();
 const dbConfig = require('./dbConfig');
 const db = mysql.createPool(dbConfig);
 
-Bookingcontrol.get('/bookingcontrolroom/:roomNumber', (req, res) => {
-    const roomNumber = req.params.roomNumber;
-    const tableName = `room${roomNumber}`;
 
-    const query = `SELECT * FROM ${tableName}`;
 
-    db.query(query, (err, result) => {
-        if (err) {
-            console.error(`Error querying ${tableName}:`, err);
-            res.status(500).json({
-                success: false,
-                message: 'Internal Server Error',
-            });
-        } else {
-            res.send(result);
-        }
-    });
-});
 
-Bookingcontrol.put('/bookingcontrolroom/:roomNumber', (req, res) => {
-    const roomNumber = req.params.roomNumber;
-    const id = req.body.id;
-    const newStatus = req.body.status;
-    const tableName = `room${roomNumber}`;
-
-    db.query(`UPDATE ${tableName} SET STATUS = ? WHERE id = ?`, [newStatus, id], (err, result) => {
-        if (err) {
-            console.error("Error updating status:", err);
-            res.status(500).json({ error: "An error occurred while updating status" });
-        } else if (result.affectedRows === 0) {
-            console.error("No rows were affected by the update");
-            res.status(404).json({ error: "No booking found with the provided ID" });
-        } else {
-            console.log("Status updated successfully");
-            res.status(200).json({ message: "Status updated successfully" });
-        }
-        console.log(newStatus);
-        console.log(id);
-    });
-});
 
 Bookingcontrol.put('/updateInvoice/:id', (req, res) => {
     const id = req.params.id; 
@@ -95,7 +58,9 @@ Bookingcontrol.put('/updateInvoice/:id', (req, res) => {
 
 Bookingcontrol.delete('/bookingcontrol/deletebooking/:id', (req, res) => {
     const id = req.params.id;
+    
     req.dbConnection.query("DELETE FROM booking WHERE id = ?", id, (err, result) => {
+        console.log("delete", id)
         if (err) {
             console.error('Error deleting tabien entry:', err);
             res.status(500).json({
@@ -144,26 +109,11 @@ Bookingcontrol.post('/bookingcontrolroomcreate', async (req, res) => {
     }
 });
 
-Bookingcontrol.post('/bookingcontrol', (req, res) => {
-    const id = req.body.id;
-    const query = `SELECT * FROM booking WHERE id = ?`;
-    console.log('id:', id);
-    db.query(query, id, (err, result) => {
-        if (err) {
-            console.error(`Error querying booking:`, err);
-            res.status(500).json({
-                success: false,
-                message: 'Internal Server Error',
-            });
-        } else {
-            res.send(result);
-        }
-    });
-});
 Bookingcontrol.post('/booking/create', (req, res) => {
     const {
         checkindate,
         checkoutdate,
+        bookingID,
         fullprice,
         discount,
         price,
@@ -175,10 +125,11 @@ Bookingcontrol.post('/booking/create', (req, res) => {
         roomname,
         prevscore,
         addscore,
+        score,
         remark,
         name,
         surname,
-        phonenumber
+        phonenumber,
     } = req.body;
 
     function formatDate(date) {
@@ -194,15 +145,16 @@ Bookingcontrol.post('/booking/create', (req, res) => {
     const formattedCheckoutDate = formatDate(checkoutdate);
 
     // Construct the SQL query with parameterized values
-    const query = `INSERT INTO booking (checkindate, checkoutdate, fullprice, discount, price, 
+    const query = `INSERT INTO booking (checkindate, checkoutdate, bookingID ,fullprice, discount, price, 
                    priceVat, details, days, company, companyaddress, roomname, prevscore, 
-                   addscore, remark, name, surname, phonenumber) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                   addscore, score ,remark, name, surname, phonenumber) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     // Prepare the values to be inserted into the database
     const values = [
         formattedCheckinDate,
         formattedCheckoutDate,
+        bookingID ,
         fullprice,
         discount,
         price,
@@ -214,6 +166,7 @@ Bookingcontrol.post('/booking/create', (req, res) => {
         roomname,
         prevscore,
         addscore,
+        score,
         remark,
         name,
         surname,
@@ -231,13 +184,10 @@ Bookingcontrol.post('/booking/create', (req, res) => {
         } else {
             res.send(result);
             console.log("successfully")
-
         }
     });
 
 });
-
-
 
 
 
